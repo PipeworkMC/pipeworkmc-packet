@@ -1,0 +1,26 @@
+[package]
+name    = "pipeworkmc-packet"
+version = "0.1.0"
+edition = "2024"
+
+[lints.rust]
+unused_parens = "allow"
+# TODO: missing_docs = "deny"
+[lints.clippy]
+missing_safety_doc = "allow" # TODO: Remove
+
+
+[dependencies.pipeworkmc-codec]
+path = "../pipeworkmc-codec"
+
+[dependencies.pipeworkmc-data]
+path = "../pipeworkmc-data"
+
+# Serialisation
+
+[dependencies.serde]
+version  = "1.0"
+features = [ "derive" ]
+
+[dependencies.serde_json]
+version = "1.0"
