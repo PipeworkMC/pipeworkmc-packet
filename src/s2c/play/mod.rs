@@ -153,10 +153,10 @@ pub enum S2CPlayPackets<'l> {
 
 impl S2CPlayPackets<'_> {
 
-    pub fn prefix(&self) -> u8 { match (self) {
-        Self::Disconnect (_) => disconnect ::S2CPlayDisconnectPacket ::PREFIX,
-        Self::KeepAlive  (_) => keep_alive ::S2CPlayKeepAlivePacket  ::PREFIX,
-        Self::Login      (_) => login      ::S2CPlayLoginPacket      ::PREFIX
+    pub fn meta(&self) -> (u8, bool,) { match (self) {
+        Self::Disconnect (_) => (disconnect ::S2CPlayDisconnectPacket ::PREFIX, disconnect ::S2CPlayDisconnectPacket ::KICK,),
+        Self::KeepAlive  (_) => (keep_alive ::S2CPlayKeepAlivePacket  ::PREFIX, keep_alive ::S2CPlayKeepAlivePacket  ::KICK,),
+        Self::Login      (_) => (login      ::S2CPlayLoginPacket      ::PREFIX, login      ::S2CPlayLoginPacket      ::KICK,)
     } }
 
 }

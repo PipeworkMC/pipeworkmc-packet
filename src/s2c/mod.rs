@@ -23,11 +23,11 @@ pub enum S2CPackets<'l> {
 
 impl S2CPackets<'_> {
 
-    pub fn meta(&self) -> (PacketState, u8,) { match (self) {
-        Self::Status (packet) => (PacketState::Status, packet.prefix(),),
-        Self::Login  (packet) => (PacketState::Login,  packet.prefix(),),
-        Self::Config (packet) => (PacketState::Config, packet.prefix(),),
-        Self::Play   (packet) => (PacketState::Play,   packet.prefix(),)
+    pub fn meta(&self) -> (PacketState, u8, bool,) { match (self) {
+        Self::Status (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Status, prefix, kick,) },
+        Self::Login  (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Login,  prefix, kick,) },
+        Self::Config (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Config, prefix, kick,) },
+        Self::Play   (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Play,   prefix, kick,) }
     } }
 
 }

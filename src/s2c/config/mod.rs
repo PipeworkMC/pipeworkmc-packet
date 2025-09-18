@@ -41,13 +41,13 @@ pub enum S2CConfigPackets<'l> {
 
 impl S2CConfigPackets<'_> {
 
-    pub fn prefix(&self) -> u8 { match (self) {
-        Self::CustomPayload (_) => custom_payload ::S2CConfigCustomPayloadPacket ::PREFIX,
-        Self::Disconnect    (_) => disconnect     ::S2CConfigDisconnectPacket    ::PREFIX,
-        Self::Finish        (_) => finish         ::S2CConfigFinishPacket        ::PREFIX,
-        Self::KeepAlive     (_) => keep_alive     ::S2CConfigKeepAlivePacket     ::PREFIX,
-        Self::RegistryData  (_) => registry_data  ::S2CConfigRegistryDataPacket  ::PREFIX,
-        Self::KnownPacks    (_) => known_packs    ::S2CConfigKnownPacksPacket    ::PREFIX
+    pub fn meta(&self) -> (u8, bool,) { match (self) {
+        Self::CustomPayload (_) => (custom_payload ::S2CConfigCustomPayloadPacket ::PREFIX, custom_payload ::S2CConfigCustomPayloadPacket ::KICK,),
+        Self::Disconnect    (_) => (disconnect     ::S2CConfigDisconnectPacket    ::PREFIX, disconnect     ::S2CConfigDisconnectPacket    ::KICK,),
+        Self::Finish        (_) => (finish         ::S2CConfigFinishPacket        ::PREFIX, finish         ::S2CConfigFinishPacket        ::KICK,),
+        Self::KeepAlive     (_) => (keep_alive     ::S2CConfigKeepAlivePacket     ::PREFIX, keep_alive     ::S2CConfigKeepAlivePacket     ::KICK,),
+        Self::RegistryData  (_) => (registry_data  ::S2CConfigRegistryDataPacket  ::PREFIX, registry_data  ::S2CConfigRegistryDataPacket  ::KICK,),
+        Self::KnownPacks    (_) => (known_packs    ::S2CConfigKnownPacksPacket    ::PREFIX, known_packs    ::S2CConfigKnownPacksPacket    ::KICK,)
     } }
 
 }

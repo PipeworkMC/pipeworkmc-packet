@@ -26,6 +26,7 @@ impl PacketMeta for S2CLoginDisconnectPacket {
     const STATE  : PacketState = PacketState::Login;
     const BOUND  : PacketBound = PacketBound::C2S;
     const PREFIX : u8          = 0x00; // TODO: Check against current datagen.
+    const KICK   : bool        = true;
 }
 
 unsafe impl PacketEncode for S2CLoginDisconnectPacket {
@@ -53,12 +54,12 @@ impl<'l> From<S2CLoginDisconnectPacket> for S2CLoginPackets<'l> {
 }
 
 
-impl<S> From<S> for S2CLoginDisconnectPacket
+impl<'l, S> From<S> for S2CLoginDisconnectPacket
 where
-    S : Into<Text>
+    S : Into<&'l Text>
 {
     #[inline]
     fn from(value : S) -> Self {
-        Self { reason_json : to_json_string(&value.into()).unwrap() }
+        Self { reason_json : to_json_string(value.into()).unwrap() }
     }
 }

@@ -26,11 +26,11 @@ pub enum S2CLoginPackets<'l> {
 
 impl S2CLoginPackets<'_> {
 
-    pub fn prefix(&self) -> u8 { match (self) {
-        Self::Disconnect     (_) => disconnect      ::S2CLoginDisconnectPacket     ::PREFIX,
-        Self::EncryptRequest (_) => encrypt_request ::S2CLoginEncryptRequestPacket ::PREFIX,
-        Self::Finish         (_) => finish          ::S2CLoginFinishPacket         ::PREFIX,
-        Self::Compression    (_) => compression     ::S2CLoginCompressionPacket    ::PREFIX
+    pub fn meta(&self) -> (u8, bool,) { match (self) {
+        Self::Disconnect     (_) => (disconnect      ::S2CLoginDisconnectPacket     ::PREFIX, disconnect      ::S2CLoginDisconnectPacket     ::KICK,),
+        Self::EncryptRequest (_) => (encrypt_request ::S2CLoginEncryptRequestPacket ::PREFIX, encrypt_request ::S2CLoginEncryptRequestPacket ::KICK,),
+        Self::Finish         (_) => (finish          ::S2CLoginFinishPacket         ::PREFIX, finish          ::S2CLoginFinishPacket         ::KICK,),
+        Self::Compression    (_) => (compression     ::S2CLoginCompressionPacket    ::PREFIX, compression     ::S2CLoginCompressionPacket    ::KICK,)
     } }
 
 }

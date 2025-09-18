@@ -20,9 +20,9 @@ pub enum S2CStatusPackets<'l> {
 
 impl S2CStatusPackets<'_> {
 
-    pub fn prefix(&self) -> u8 { match (self) {
-        Self::Response (_) => response ::S2CStatusResponsePacket ::PREFIX,
-        Self::Pong     (_) => pong     ::S2CStatusPongPacket     ::PREFIX
+    pub fn meta(&self) -> (u8, bool,) { match (self) {
+        Self::Response (_) => (response ::S2CStatusResponsePacket ::PREFIX, response ::S2CStatusResponsePacket ::KICK,),
+        Self::Pong     (_) => (pong     ::S2CStatusPongPacket     ::PREFIX, pong     ::S2CStatusPongPacket     ::KICK,)
     } }
 
 }

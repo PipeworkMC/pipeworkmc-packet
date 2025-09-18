@@ -28,6 +28,7 @@ impl PacketMeta for S2CConfigDisconnectPacket {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
     const PREFIX : u8          = 0x02; // TODO: Check against current datagen.
+    const KICK   : bool        = true;
 }
 
 unsafe impl PacketEncode for S2CConfigDisconnectPacket {
@@ -55,14 +56,14 @@ impl From<S2CConfigDisconnectPacket> for S2CConfigPackets<'_> {
 }
 
 
-impl<S> From<S> for S2CConfigDisconnectPacket
+impl<'l, S> From<S> for S2CConfigDisconnectPacket
 where
-    S : Into<Text>
+    S : Into<&'l Text>
 {
     #[inline]
     fn from(value : S) -> Self {
         let mut reason_nbt = Vec::new();
-        to_network_nbt(&mut reason_nbt, &value.into()).unwrap();
+        to_network_nbt(&mut reason_nbt, value.into()).unwrap();
         Self { reason_nbt }
     }
 }

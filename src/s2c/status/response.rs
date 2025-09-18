@@ -3,7 +3,6 @@ use crate::s2c::{
     status::S2CStatusPackets
 };
 use pipeworkmc_codec::{
-    Protocol,
     encode::{
         PacketEncode,
         EncodeBuf
@@ -20,7 +19,8 @@ use pipeworkmc_data::{
         TextComponent,
         TextContent
     },
-    uuid::Uuid
+    uuid::Uuid,
+    version::Version
 };
 use std::borrow::Cow;
 use serde::{
@@ -127,8 +127,8 @@ impl Default for Status<'_> {
 impl Default for StatusVersion<'_> {
     #[inline]
     fn default() -> Self { Self {
-        name     : Cow::Borrowed(Protocol::LATEST.earliest_name()),
-        protocol : Protocol::LATEST.id()
+        name     : Cow::Borrowed(Version::CURRENT.earliest_name()),
+        protocol : Version::CURRENT.id()
     } }
 }
 
