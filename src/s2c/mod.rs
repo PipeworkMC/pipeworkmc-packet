@@ -23,7 +23,7 @@ pub enum S2CPackets<'l> {
 
 impl S2CPackets<'_> {
 
-    pub fn meta(&self) -> (PacketState, u8, bool,) { match (self) {
+    pub fn meta(&self) -> (PacketState, u8, bool,) { match (self) { // TODO: Return a proper structure.
         Self::Status (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Status, prefix, kick,) },
         Self::Login  (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Login,  prefix, kick,) },
         Self::Config (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Config, prefix, kick,) },

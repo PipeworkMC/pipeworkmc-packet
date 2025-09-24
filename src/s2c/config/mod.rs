@@ -41,7 +41,7 @@ pub enum S2CConfigPackets<'l> {
 
 impl S2CConfigPackets<'_> {
 
-    pub fn meta(&self) -> (u8, bool,) { match (self) {
+    pub fn meta(&self) -> (u8, bool,) { match (self) { // TODO: Return a proper structure.
         Self::CustomPayload (_) => (custom_payload ::S2CConfigCustomPayloadPacket ::PREFIX, custom_payload ::S2CConfigCustomPayloadPacket ::KICK,),
         Self::Disconnect    (_) => (disconnect     ::S2CConfigDisconnectPacket    ::PREFIX, disconnect     ::S2CConfigDisconnectPacket    ::KICK,),
         Self::Finish        (_) => (finish         ::S2CConfigFinishPacket        ::PREFIX, finish         ::S2CConfigFinishPacket        ::KICK,),

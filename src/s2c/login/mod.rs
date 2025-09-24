@@ -26,7 +26,7 @@ pub enum S2CLoginPackets<'l> {
 
 impl S2CLoginPackets<'_> {
 
-    pub fn meta(&self) -> (u8, bool,) { match (self) {
+    pub fn meta(&self) -> (u8, bool,) { match (self) { // TODO: Return a proper structure.
         Self::Disconnect     (_) => (disconnect      ::S2CLoginDisconnectPacket     ::PREFIX, disconnect      ::S2CLoginDisconnectPacket     ::KICK,),
         Self::EncryptRequest (_) => (encrypt_request ::S2CLoginEncryptRequestPacket ::PREFIX, encrypt_request ::S2CLoginEncryptRequestPacket ::KICK,),
         Self::Finish         (_) => (finish          ::S2CLoginFinishPacket         ::PREFIX, finish          ::S2CLoginFinishPacket         ::KICK,),

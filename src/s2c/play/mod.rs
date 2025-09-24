@@ -8,15 +8,18 @@ use pipeworkmc_codec::{
 };
 
 
+pub mod add_character;
 pub mod disconnect;
+pub mod game_event;
 pub mod keep_alive;
 pub mod login;
+pub mod remove_characters;
 
 
 #[derive(Debug)]
 pub enum S2CPlayPackets<'l> {
     // TODO: BundleDelim
-    // TODO: SpawnEntity
+    AddCharacter (add_character ::S2CPlayAddCharacterPacket),
     // TODO: EntityAnim
     // TODO: AwardStat
     // TODO: AcknowledgeBlockChange
@@ -49,7 +52,7 @@ pub enum S2CPlayPackets<'l> {
     // TODO: TeleportEntity
     // TODO: Explosion
     // TODO: UnloadChunk
-    // TODO: GameEvent
+    GameEvent (game_event ::S2CPlayGameEventPacket),
     // TODO: OpenHorseScreen
     // TODO: HurtAnim
     // TODO: InitWorldBorder
@@ -58,7 +61,7 @@ pub enum S2CPlayPackets<'l> {
     // TODO: WorldEvent
     // TODO: Particle
     // TODO: UpdateLight
-    Login      (login      ::S2CPlayLoginPacket<'l>)
+    Login      (login      ::S2CPlayLoginPacket<'l>),
     // TODO: MapData
     // TODO: MerchantOffers
     // TODO: UpdateEntityPos
@@ -85,7 +88,7 @@ pub enum S2CPlayPackets<'l> {
     // TODO: RecipeBookAdd
     // TODO: RecipeBookRemove
     // TODO: RecipeBookSettings
-    // TODO: RemoveEntities
+    RemoveCharacters (remove_characters ::S2CPlayRemoveCharactersPacket<'l>)
     // TODO: RemoveEntityEffect
     // TODO: ResetScore
     // TODO: RemoveResourcePack
@@ -153,10 +156,13 @@ pub enum S2CPlayPackets<'l> {
 
 impl S2CPlayPackets<'_> {
 
-    pub fn meta(&self) -> (u8, bool,) { match (self) {
-        Self::Disconnect (_) => (disconnect ::S2CPlayDisconnectPacket ::PREFIX, disconnect ::S2CPlayDisconnectPacket ::KICK,),
-        Self::KeepAlive  (_) => (keep_alive ::S2CPlayKeepAlivePacket  ::PREFIX, keep_alive ::S2CPlayKeepAlivePacket  ::KICK,),
-        Self::Login      (_) => (login      ::S2CPlayLoginPacket      ::PREFIX, login      ::S2CPlayLoginPacket      ::KICK,)
+    pub fn meta(&self) -> (u8, bool,) { match (self) { // TODO: Return a proper structure.
+        Self::AddCharacter     (_) => (add_character     ::S2CPlayAddCharacterPacket     ::PREFIX, add_character     ::S2CPlayAddCharacterPacket     ::KICK,),
+        Self::Disconnect       (_) => (disconnect        ::S2CPlayDisconnectPacket       ::PREFIX, disconnect        ::S2CPlayDisconnectPacket       ::KICK,),
+        Self::GameEvent        (_) => (game_event        ::S2CPlayGameEventPacket        ::PREFIX, game_event        ::S2CPlayGameEventPacket        ::KICK,),
+        Self::KeepAlive        (_) => (keep_alive        ::S2CPlayKeepAlivePacket        ::PREFIX, keep_alive        ::S2CPlayKeepAlivePacket        ::KICK,),
+        Self::Login            (_) => (login             ::S2CPlayLoginPacket            ::PREFIX, login             ::S2CPlayLoginPacket            ::KICK,),
+        Self::RemoveCharacters (_) => (remove_characters ::S2CPlayRemoveCharactersPacket ::PREFIX, remove_characters ::S2CPlayRemoveCharactersPacket ::KICK,)
     } }
 
 }
@@ -164,15 +170,21 @@ impl S2CPlayPackets<'_> {
 unsafe impl PrefixedPacketEncode for S2CPlayPackets<'_> {
 
     fn encode_prefixed_len(&self) -> usize { match (self) {
-        Self::Disconnect (packet) => packet.encode_prefixed_len(),
-        Self::KeepAlive  (packet) => packet.encode_prefixed_len(),
-        Self::Login      (packet) => packet.encode_prefixed_len()
+        Self::AddCharacter     (packet) => packet.encode_prefixed_len(),
+        Self::Disconnect       (packet) => packet.encode_prefixed_len(),
+        Self::GameEvent        (packet) => packet.encode_prefixed_len(),
+        Self::KeepAlive        (packet) => packet.encode_prefixed_len(),
+        Self::Login            (packet) => packet.encode_prefixed_len(),
+        Self::RemoveCharacters (packet) => packet.encode_prefixed_len()
     } }
 
     unsafe fn encode_prefixed(&self, buf : &mut EncodeBuf) { unsafe { match (self) {
-        Self::Disconnect (packet) => packet.encode_prefixed(buf),
-        Self::KeepAlive  (packet) => packet.encode_prefixed(buf),
-        Self::Login      (packet) => packet.encode_prefixed(buf)
+        Self::AddCharacter     (packet) => packet.encode_prefixed(buf),
+        Self::Disconnect       (packet) => packet.encode_prefixed(buf),
+        Self::GameEvent        (packet) => packet.encode_prefixed(buf),
+        Self::KeepAlive        (packet) => packet.encode_prefixed(buf),
+        Self::Login            (packet) => packet.encode_prefixed(buf),
+        Self::RemoveCharacters (packet) => packet.encode_prefixed(buf)
     } } }
 
 }
