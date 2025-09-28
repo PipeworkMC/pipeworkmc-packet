@@ -1,3 +1,6 @@
+//! Clientbound configuration keep alive packet.
+
+
 use crate::s2c::{
     S2CPackets,
     config::S2CConfigPackets
@@ -15,8 +18,10 @@ use pipeworkmc_codec::{
 };
 
 
+/// Lets the client know that the connection is still alive.
 #[derive(Debug)]
 pub struct S2CConfigKeepAlivePacket {
+    /// ID of the keepalive. The client will respond with the same ID.
     pub id : u64
 }
 

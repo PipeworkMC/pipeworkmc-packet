@@ -1,3 +1,6 @@
+//! Clientbound status pong packet.
+
+
 use crate::s2c::{
     S2CPackets,
     status::S2CStatusPackets
@@ -15,8 +18,10 @@ use pipeworkmc_codec::{
 };
 
 
+/// Responds to a ping sent by the client.
 #[derive(Debug)]
 pub struct S2CStatusPongPacket {
+    /// The timestamp sent in the original request.
     pub timestamp : u64
 }
 

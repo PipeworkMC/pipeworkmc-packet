@@ -1,7 +1,10 @@
+//! Serverbound play custom payload packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf
+        DecodeIter
     },
     meta::{
         PacketMeta,
@@ -15,8 +18,10 @@ use pipeworkmc_data::channel_data::{
 };
 
 
+/// Custom data sent to the server.
 #[derive(Debug)]
 pub struct C2SPlayCustomPayloadPacket {
+    /// Custom data.
     pub data : ChannelData<'static>
 }
 
@@ -29,8 +34,9 @@ impl PacketMeta for C2SPlayCustomPayloadPacket {
 impl PacketDecode for C2SPlayCustomPayloadPacket {
     type Error = ChannelDataDecodeError;
 
-    fn decode(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(buf : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self {
         data : <_>::decode(buf)?,
     }) }

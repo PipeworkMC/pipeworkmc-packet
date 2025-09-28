@@ -1,3 +1,6 @@
+//! Clientbound packets.
+
+
 use pipeworkmc_codec::{
     encode::{
         PrefixedPacketEncode,
@@ -13,16 +16,22 @@ pub mod config;
 pub mod play;
 
 
+/// Clientbound packets.
 #[derive(Debug)]
 pub enum S2CPackets<'l> {
+    /// Clientbound status packets.
     Status(status::S2CStatusPackets<'l>),
+    /// Clientbound login packets.
     Login(login::S2CLoginPackets<'l>),
+    /// Clientbound configuration packets.
     Config(config::S2CConfigPackets<'l>),
+    /// Clientbound play packets.
     Play(play::S2CPlayPackets<'l>)
 }
 
 impl S2CPackets<'_> {
 
+    /// Returns metadata about this packet.
     pub fn meta(&self) -> (PacketState, u8, bool,) { match (self) { // TODO: Return a proper structure.
         Self::Status (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Status, prefix, kick,) },
         Self::Login  (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Login,  prefix, kick,) },

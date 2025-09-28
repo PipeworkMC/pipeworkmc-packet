@@ -1,7 +1,10 @@
+//! Serverbound configuration known packs packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf,
+        DecodeIter,
         vec::VecDecodeError
     },
     meta::{
@@ -16,8 +19,10 @@ use pipeworkmc_data::known_pack::{
 };
 
 
+/// Tells the server what data packs are present in the game.
 #[derive(Debug)]
 pub struct C2SConfigKnownPacksPacket {
+    /// The known data packs.
     pub known_packs : Vec<KnownPack<'static>>
 }
 
@@ -30,9 +35,10 @@ impl PacketMeta for C2SConfigKnownPacksPacket {
 impl PacketDecode for C2SConfigKnownPacksPacket {
     type Error = VecDecodeError<KnownPackDecodeError>;
 
-    fn decode(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        known_packs : <_>::decode(buf)?,
+        known_packs : <_>::decode(iter)?,
     }) }
 }

@@ -1,7 +1,10 @@
+//! Serverbound configuration keep alive packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf,
+        DecodeIter,
         IncompleteDecodeError
     },
     meta::{
@@ -12,8 +15,10 @@ use pipeworkmc_codec::{
 };
 
 
+/// Lets the server know that the connection is still alive.
 #[derive(Debug)]
 pub struct C2SConfigKeepAlivePacket {
+    /// ID of the keepalive. The server previously sent the value to use.
     pub id : u64
 }
 
@@ -27,9 +32,10 @@ impl PacketDecode for C2SConfigKeepAlivePacket {
     type Error = IncompleteDecodeError;
 
     #[inline(always)]
-    fn decode(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        id : <_>::decode(buf)?
+        id : <_>::decode(iter)?
     }) }
 }

@@ -1,3 +1,6 @@
+//! Clientbound login disconnect packet.
+
+
 use crate::s2c::{
     S2CPackets,
     login::S2CLoginPackets
@@ -17,6 +20,7 @@ use pipeworkmc_data::text::Text;
 use serde_json::to_string as to_json_string;
 
 
+/// Kicks the player from the server with a reason.
 #[derive(Debug)]
 pub struct S2CLoginDisconnectPacket {
     reason_json : String

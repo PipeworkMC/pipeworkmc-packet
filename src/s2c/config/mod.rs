@@ -1,3 +1,6 @@
+//! Clientbound configuration packets.
+
+
 use crate::s2c::S2CPackets;
 use pipeworkmc_codec::{
     encode::{
@@ -16,23 +19,30 @@ pub mod registry_data;
 pub mod known_packs;
 
 
+/// Clientbound configuration packets.
 #[derive(Debug)]
 pub enum S2CConfigPackets<'l> {
     // TODO: CookieRequest
-    CustomPayload (custom_payload ::S2CConfigCustomPayloadPacket<'l>),
-    Disconnect    (disconnect     ::S2CConfigDisconnectPacket),
-    Finish        (finish         ::S2CConfigFinishPacket),
-    KeepAlive     (keep_alive     ::S2CConfigKeepAlivePacket),
+    /// Custom payload
+    CustomPayload(custom_payload::S2CConfigCustomPayloadPacket<'l>),
+    /// Disconnect
+    Disconnect(disconnect::S2CConfigDisconnectPacket),
+    /// Finish
+    Finish(finish::S2CConfigFinishPacket),
+    /// Keep alive
+    KeepAlive(keep_alive::S2CConfigKeepAlivePacket),
     // TODO: Ping
     // TODO: ResetChat
-    RegistryData  (registry_data  ::S2CConfigRegistryDataPacket),
+    /// Registry data
+    RegistryData(registry_data::S2CConfigRegistryDataPacket<'l>),
     // TODO: RemoveResourcePack
     // TODO: AddResourcePack
     // TODO: StoreCookie
     // TODO: Transfer
     // TODO: FeatureFlags
     // TODO: UpdateTags
-    KnownPacks    (known_packs    ::S2CConfigKnownPacksPacket<'l>)
+    /// Known packs
+    KnownPacks(known_packs::S2CConfigKnownPacksPacket<'l>)
     // TODO: CustomReportDetails
     // TODO: ServerLinks
     // TODO: ClearDialog
@@ -41,6 +51,7 @@ pub enum S2CConfigPackets<'l> {
 
 impl S2CConfigPackets<'_> {
 
+    /// Returns metadata about this packet.
     pub fn meta(&self) -> (u8, bool,) { match (self) { // TODO: Return a proper structure.
         Self::CustomPayload (_) => (custom_payload ::S2CConfigCustomPayloadPacket ::PREFIX, custom_payload ::S2CConfigCustomPayloadPacket ::KICK,),
         Self::Disconnect    (_) => (disconnect     ::S2CConfigDisconnectPacket    ::PREFIX, disconnect     ::S2CConfigDisconnectPacket    ::KICK,),

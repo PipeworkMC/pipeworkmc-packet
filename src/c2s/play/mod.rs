@@ -1,8 +1,11 @@
+//! Serverbound play packets.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
         PrefixedPacketDecode,
-        DecodeBuf,
+        DecodeIter,
         IncompleteDecodeError
     },
     meta::PacketMeta
@@ -20,6 +23,7 @@ pub mod keep_alive;
 pub mod loaded;
 
 
+/// Serverbound play packets.
 #[derive(Debug)]
 pub enum C2SPlayPackets {
     // TODO: ConfirmTeleport
@@ -34,7 +38,8 @@ pub enum C2SPlayPackets {
     // TODO: PlayerSession
     // TODO: ChunkBatchReceived
     // TODO: ClientStatus
-    TickEnd       (tick_end       ::C2SPlayTickEndPacket),
+    /// Tick end
+    TickEnd(tick_end::C2SPlayTickEndPacket),
     // TODO: ClientInfo
     // TODO: CommandSuggestionsRequest
     // TODO: AcknowledgeConfig
@@ -43,13 +48,15 @@ pub enum C2SPlayPackets {
     // TODO: CloseContinaer
     // TODO: ChangeContainerSlotState
     // TODO: CookieResponse
-    CustomPayload (custom_payload ::C2SPlayCustomPayloadPacket),
+    /// Custom payload
+    CustomPayload(custom_payload::C2SPlayCustomPayloadPacket),
     // TODO: DebugSampleSubscription
     // TODO: EditBook
     // TODO: QueryEntityTag
     // TODO: Interact
     // TODO: JigsawGenerate
-    KeepAlive     (keep_alive     ::C2SPlayKeepAlivePacket),
+    /// Keep alive
+    KeepAlive(keep_alive::C2SPlayKeepAlivePacket),
     // TODO: LockDifficulty
     // TODO: SetPlayerPos
     // TODO: SetPlayerPosAndRot
@@ -65,7 +72,8 @@ pub enum C2SPlayPackets {
     // TODO: PlayerAction
     // TODO: PlayerCommand
     // TODO: PlayerInput
-    Loaded        (loaded         ::C2SPlayLoadedPacket)
+    /// Loaded
+    Loaded(loaded::C2SPlayLoadedPacket)
     // TODO: Pong
     // TODO: ChangeRecipeBookSettings
     // TODO: SetSeenRecipe
@@ -93,14 +101,15 @@ pub enum C2SPlayPackets {
 impl PrefixedPacketDecode for C2SPlayPackets {
     type Error = C2SPlayDecodeError;
 
-    fn decode_prefixed(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode_prefixed<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     {
-        Ok(match (buf.read().map_err(C2SPlayDecodeError::Incomplete)?) {
-            tick_end       ::C2SPlayTickEndPacket       ::PREFIX => Self::TickEnd       (tick_end       ::C2SPlayTickEndPacket       ::decode(buf)?),
-            custom_payload ::C2SPlayCustomPayloadPacket ::PREFIX => Self::CustomPayload (custom_payload ::C2SPlayCustomPayloadPacket ::decode(buf).map_err(C2SPlayDecodeError::CustomPayload)?),
-            keep_alive     ::C2SPlayKeepAlivePacket     ::PREFIX => Self::KeepAlive     (keep_alive     ::C2SPlayKeepAlivePacket     ::decode(buf).map_err(C2SPlayDecodeError::KeepAlive)?),
-            loaded         ::C2SPlayLoadedPacket        ::PREFIX => Self::Loaded        (loaded         ::C2SPlayLoadedPacket        ::decode(buf)?),
+        Ok(match (iter.read().map_err(C2SPlayDecodeError::Prefix)?) {
+            tick_end       ::C2SPlayTickEndPacket       ::PREFIX => Self::TickEnd       (tick_end       ::C2SPlayTickEndPacket       ::decode(iter)?),
+            custom_payload ::C2SPlayCustomPayloadPacket ::PREFIX => Self::CustomPayload (custom_payload ::C2SPlayCustomPayloadPacket ::decode(iter).map_err(C2SPlayDecodeError::CustomPayload)?),
+            keep_alive     ::C2SPlayKeepAlivePacket     ::PREFIX => Self::KeepAlive     (keep_alive     ::C2SPlayKeepAlivePacket     ::decode(iter).map_err(C2SPlayDecodeError::KeepAlive)?),
+            loaded         ::C2SPlayLoadedPacket        ::PREFIX => Self::Loaded        (loaded         ::C2SPlayLoadedPacket        ::decode(iter)?),
 
             v => { return Err(C2SPlayDecodeError::UnknownPrefix(v)); }
         })
@@ -108,11 +117,16 @@ impl PrefixedPacketDecode for C2SPlayPackets {
 }
 
 
+/// Returned by packet decoders when a `C2SPlayPackets` was not decoded successfully.
 #[derive(Debug)]
 pub enum C2SPlayDecodeError {
-    Incomplete(IncompleteDecodeError),
-    CustomPayload (ChannelDataDecodeError),
+    /// There were not enough bytes to decode a packet ID.
+    Prefix(IncompleteDecodeError),
+    /// A `C2SPlayCustomPayloadPacket` failed to decode.
+    CustomPayload(ChannelDataDecodeError),
+    /// A `C2SPlayKeepAlivePacket` failed to decode.
     KeepAlive(IncompleteDecodeError),
+    /// An unrecognised packet ID was found.
     UnknownPrefix(u8)
 }
 impl From<!> for C2SPlayDecodeError {
@@ -121,9 +135,9 @@ impl From<!> for C2SPlayDecodeError {
 }
 impl Display for C2SPlayDecodeError {
     fn fmt(&self, f : &mut Formatter<'_>) -> fmt::Result { match (self) {
-        Self::Incomplete(err)    => err.fmt(f),
+        Self::Prefix(err)        => err.fmt(f),
         Self::CustomPayload(err) => write!(f, "custom payload {err}"),
-        Self::KeepAlive(err) => write!(f, "keep alive {err}"),
+        Self::KeepAlive(err)     => write!(f, "keep alive {err}"),
         Self::UnknownPrefix(b)   => write!(f, "unknown prefix `0x{b:0>2X}`"),
     } }
 }

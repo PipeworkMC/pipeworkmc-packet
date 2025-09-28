@@ -1,3 +1,6 @@
+//! Clientbound login encrypt request packet.
+
+
 use crate::s2c::{
     S2CPackets,
     login::S2CLoginPackets
@@ -20,11 +23,19 @@ use pipeworkmc_data::{
 use std::borrow::Cow;
 
 
+/// Sends a public key to the client which will be used to send back a shared key.
+/// All future communication will be encrypted.
+///
+/// Also includes a bit more information used in the mojauth process.
 #[derive(Debug)]
 pub struct S2CLoginEncryptRequestPacket<'l> {
+    /// ID of the server, used in the mojauth process.
     pub server_id       : BoundedString<20>,
+    /// Public key to use when sending back a shared key.
     pub public_key      : Redacted<Cow<'l, [u8]>>,
+    /// Verify token, used to ensure that the key exchange was successful.
     pub verify_token    : [u8; 4],
+    /// Whether to enable mojauth.
     pub mojauth_enabled : bool
 }
 

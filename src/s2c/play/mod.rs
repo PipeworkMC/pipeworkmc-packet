@@ -1,3 +1,6 @@
+//! Clientbound play packets.
+
+
 use crate::s2c::S2CPackets;
 use pipeworkmc_codec::{
     encode::{
@@ -16,10 +19,12 @@ pub mod login;
 pub mod remove_characters;
 
 
+/// Clientbound play packets.
 #[derive(Debug)]
 pub enum S2CPlayPackets<'l> {
     // TODO: BundleDelim
-    AddCharacter (add_character ::S2CPlayAddCharacterPacket),
+    /// Add character
+    AddCharacter(add_character::S2CPlayAddCharacterPacket),
     // TODO: EntityAnim
     // TODO: AwardStat
     // TODO: AcknowledgeBlockChange
@@ -46,22 +51,26 @@ pub enum S2CPlayPackets<'l> {
     // TODO: DamageEvent
     // TODO: DebugSample
     // TODO: DeleteMessage
-    Disconnect (disconnect ::S2CPlayDisconnectPacket),
+    /// Disconnect
+    Disconnect(disconnect::S2CPlayDisconnectPacket),
     // TODO: DisguisedChatMessage
     // TODO: EntityEvent
     // TODO: TeleportEntity
     // TODO: Explosion
     // TODO: UnloadChunk
-    GameEvent (game_event ::S2CPlayGameEventPacket),
+    /// Game event
+    GameEvent(game_event::S2CPlayGameEventPacket),
     // TODO: OpenHorseScreen
     // TODO: HurtAnim
     // TODO: InitWorldBorder
-    KeepAlive  (keep_alive ::S2CPlayKeepAlivePacket),
+    /// Keep alive
+    KeepAlive(keep_alive::S2CPlayKeepAlivePacket),
     // TODO: ChunkDataAndLightUpdate
     // TODO: WorldEvent
     // TODO: Particle
     // TODO: UpdateLight
-    Login      (login      ::S2CPlayLoginPacket<'l>),
+    /// Login
+    Login(login::S2CPlayLoginPacket<'l>),
     // TODO: MapData
     // TODO: MerchantOffers
     // TODO: UpdateEntityPos
@@ -88,7 +97,8 @@ pub enum S2CPlayPackets<'l> {
     // TODO: RecipeBookAdd
     // TODO: RecipeBookRemove
     // TODO: RecipeBookSettings
-    RemoveCharacters (remove_characters ::S2CPlayRemoveCharactersPacket<'l>)
+    /// Remove characters
+    RemoveCharacters(remove_characters::S2CPlayRemoveCharactersPacket<'l>)
     // TODO: RemoveEntityEffect
     // TODO: ResetScore
     // TODO: RemoveResourcePack
@@ -156,6 +166,7 @@ pub enum S2CPlayPackets<'l> {
 
 impl S2CPlayPackets<'_> {
 
+    /// Returns metadata about this packet.
     pub fn meta(&self) -> (u8, bool,) { match (self) { // TODO: Return a proper structure.
         Self::AddCharacter     (_) => (add_character     ::S2CPlayAddCharacterPacket     ::PREFIX, add_character     ::S2CPlayAddCharacterPacket     ::KICK,),
         Self::Disconnect       (_) => (disconnect        ::S2CPlayDisconnectPacket       ::PREFIX, disconnect        ::S2CPlayDisconnectPacket       ::KICK,),

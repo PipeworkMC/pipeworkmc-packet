@@ -1,3 +1,6 @@
+//! Clientbound play game event packet.
+
+
 use crate::s2c::{
     S2CPackets,
     play::S2CPlayPackets
@@ -16,43 +19,70 @@ use pipeworkmc_codec::{
 use pipeworkmc_data::game_mode::GameMode;
 
 
+/// Alerts the client that some global event has occured.
 #[derive(Debug)]
 pub enum S2CPlayGameEventPacket {
+    /// Displays the `block.minercaft.spawn.not_valid` message.
     NoRespawnBlock,
+    /// Enables rain.
     BeginRain,
+    /// Disables rain.
     EndRain,
+    /// Sets the player's game mode.
     ChangeGameMode {
+        /// The game mode to switch to.
         to : GameMode
     },
+    /// Respawns the player.
     WinGame {
+        /// Whether to roll the game credits.
         show_credits : bool
     },
+    /// Shows demo information.
     Demo(DemoEvent),
+    /// Any player was struck by an arrow
     ArrowHitPlayer,
+    /// Changes the sky colour and lighting.
     RainLevel {
+        /// How heavy it is raining.
         level : f32
     },
+    /// Changes the sky colour and lighting.
     ThunderLevel {
+        /// How heavy it is thundering.
         level : f32
     },
+    /// Plays a pufferfish sting sound.
     PufferfishStingSound,
+    /// Plays the elder guardian effect and sound.
     ElderGuardianEffect,
+    /// Sets whether the respawns screen is enabled.
     SetRespawnScreen {
+        /// Whether the respawn screen should be shown on death.
         show_respawn_screen : bool
     },
+    /// Seemingly unused by the game.
     SetLimitedCrafting {
+        /// Seemingly unused by the game.
         is_crafting_limited : bool
     },
+    /// Instructs the client to wait for world chunks.
     WaitForChunks
 }
 
+/// Demo events.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 #[repr(u8)]
 pub enum DemoEvent {
+    /// Displays the demo welcome screen.
     Welcome          = 0,
+    /// Shows movement controls.
     MovementControls = 101,
+    /// Shows the jump control.
     JumpControl      = 102,
+    /// Shows the inventory control.
     InventoryControl = 103,
+    /// Displays the demo over screen and shows the screenshot control.
     DemoOver         = 104
 }
 

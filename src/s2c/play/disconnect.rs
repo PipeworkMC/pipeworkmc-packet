@@ -1,3 +1,6 @@
+//! Clientbound play disconnect packet.
+
+
 use crate::s2c::{
     S2CPackets,
     play::S2CPlayPackets
@@ -19,6 +22,7 @@ use pipeworkmc_data::{
 };
 
 
+/// Kicks the player from the server with a reason.
 #[derive(Debug)]
 pub struct S2CPlayDisconnectPacket {
     reason_nbt : Vec<u8>

@@ -1,3 +1,6 @@
+//! Clientbound play login packet.
+
+
 use crate::s2c::{
     S2CPackets,
     play::S2CPlayPackets
@@ -23,28 +26,53 @@ use pipeworkmc_data::{
 use std::borrow::Cow;
 
 
+/// Finalises the player login process.
 #[derive(Debug)]
 pub struct S2CPlayLoginPacket<'l> {
-    pub eid                  : CharacterId,
-    pub hardcore             : bool,
-    pub all_dim_ids          : Cow<'l, [Ident]>,
-    pub max_players          : u32,
-    pub view_dist            : u32,
-    pub sim_dist             : u32,
-    pub reduced_debug_info   : bool,
-    pub respawn_screen       : bool,
-    pub limited_crafting     : bool,
-    pub dim_type             : u32,
-    pub dim_id               : Ident,
-    pub hashed_seed          : u64,
-    pub game_mode            : GameMode,
-    pub prev_game_mode       : Option<GameMode>,
-    pub is_debug_world       : bool,
-    pub is_flat_world        : bool,
-    pub death_location       : Option<DimBlockPos>,
-    pub portal_cooldown      : u32,
-    pub sea_level            : i32,
-    pub enforces_secure_chat : bool
+    /// The player's character ID.
+    pub eid                   : CharacterId,
+    /// Whether the server is in hardcore.
+    pub hardcore              : bool,
+    /// [`Ident`]s of all dimension on the server.
+    pub all_dim_ids           : Cow<'l, [Ident]>,
+    /// Seemingly unused by the game.
+    pub max_players           : u32,
+    /// Maximum render distance allowed by the server.
+    pub view_dist             : u32,
+    /// The distance that the client should process things like characters.
+    pub sim_dist              : u32,
+    /// Decreases the amount of information provided in the F3 debug screen.
+    pub reduced_debug_info    : bool,
+    /// Whether to show the respawn screen on death.
+    pub respawn_screen        : bool,
+    /// Seemingly unused by the game.
+    pub limited_crafting      : bool,
+    /// Registry ID of the player's current dimension type.
+    pub dim_type              : u32,
+    /// [`Ident`] of the player's current dimension.
+    pub dim_id                : Ident,
+    /// Used by the client for biome noise.
+    pub hashed_seed           : u64,
+    /// The player's current game mode.
+    pub game_mode             : GameMode,
+    /// The player's previous game mode.
+    ///
+    /// Used by the `F3+N` and `F3+F4` game mode switchers.
+    pub prev_game_mode        : Option<GameMode>,
+    /// Whether the player is in a debug world.
+    pub is_debug_world        : bool,
+    /// Whether the player is in a superflat world.
+    pub is_flat_world         : bool,
+    /// The location where the player last died.
+    pub death_location        : Option<DimBlockPos>,
+    /// Seemingly unused by the game.
+    pub portal_cooldown       : u32,
+    /// The sea level of the dimension.
+    pub sea_level             : i32,
+    /// Whether chat signing is required.
+    ///
+    /// Chat signing is not supported by pipework.
+    pub requires_chat_signing : bool
 }
 
 impl PacketMeta for S2CPlayLoginPacket<'_> {
@@ -75,7 +103,7 @@ unsafe impl PacketEncode for S2CPlayLoginPacket<'_> {
         + self.death_location.encode_len()
         + VarInt::<u32>(self.portal_cooldown).encode_len()
         + VarInt::<i32>(self.sea_level).encode_len()
-        + self.enforces_secure_chat.encode_len()
+        + self.requires_chat_signing.encode_len()
     }
 
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
@@ -98,7 +126,7 @@ unsafe impl PacketEncode for S2CPlayLoginPacket<'_> {
         self.death_location.encode(buf);
         VarInt::<u32>(self.portal_cooldown).encode(buf);
         VarInt::<i32>(self.sea_level).encode(buf);
-        self.enforces_secure_chat.encode(buf);
+        self.requires_chat_signing.encode(buf);
     } }
 
 }

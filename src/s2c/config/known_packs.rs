@@ -1,3 +1,6 @@
+//! Clientbound configuration known packs packet.
+
+
 use crate::s2c::{
     S2CPackets,
     config::S2CConfigPackets
@@ -17,8 +20,10 @@ use pipeworkmc_data::known_pack::KnownPack;
 use std::borrow::Cow;
 
 
+/// Tells the client what data packs are present in the game.
 #[derive(Debug)]
 pub struct S2CConfigKnownPacksPacket<'l> {
+    /// The known data packs.
     pub known_packs : Cow<'l, [KnownPack<'l>]>
 }
 

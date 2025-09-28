@@ -1,7 +1,10 @@
+//! Serverbound status request packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf
+        DecodeIter
     },
     meta::{
         PacketMeta,
@@ -11,6 +14,7 @@ use pipeworkmc_codec::{
 };
 
 
+/// Requests server list information from the server.
 #[derive(Debug)]
 pub struct C2SStatusRequestPacket;
 
@@ -24,7 +28,8 @@ impl PacketDecode for C2SStatusRequestPacket {
     type Error = !;
 
     #[inline(always)]
-    fn decode(_ : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(_ : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self) }
 }

@@ -1,3 +1,6 @@
+//! Clientbound login packets.
+
+
 use crate::s2c::S2CPackets;
 use pipeworkmc_codec::{
     encode::{
@@ -14,18 +17,24 @@ pub mod finish;
 pub mod compression;
 
 
+/// Clientbound login packets.
 #[derive(Debug)]
 pub enum S2CLoginPackets<'l> {
-    Disconnect     (disconnect      ::S2CLoginDisconnectPacket),
-    EncryptRequest (encrypt_request ::S2CLoginEncryptRequestPacket<'l>),
-    Finish         (finish          ::S2CLoginFinishPacket),
-    Compression    (compression     ::S2CLoginCompressionPacket)
+    /// Disconnect
+    Disconnect(disconnect::S2CLoginDisconnectPacket),
+    /// Encrypt request
+    EncryptRequest(encrypt_request::S2CLoginEncryptRequestPacket<'l>),
+    /// Finish
+    Finish(finish::S2CLoginFinishPacket),
+    /// Compression
+    Compression(compression::S2CLoginCompressionPacket)
     // TODO: QueryRequest
     // TODO: CookieRequest
 }
 
 impl S2CLoginPackets<'_> {
 
+    /// Returns metadata about this packet.
     pub fn meta(&self) -> (u8, bool,) { match (self) { // TODO: Return a proper structure.
         Self::Disconnect     (_) => (disconnect      ::S2CLoginDisconnectPacket     ::PREFIX, disconnect      ::S2CLoginDisconnectPacket     ::KICK,),
         Self::EncryptRequest (_) => (encrypt_request ::S2CLoginEncryptRequestPacket ::PREFIX, encrypt_request ::S2CLoginEncryptRequestPacket ::KICK,),

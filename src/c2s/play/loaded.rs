@@ -1,7 +1,10 @@
+//! Serverbound play loaded packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf
+        DecodeIter
     },
     meta::{
         PacketMeta,
@@ -11,6 +14,7 @@ use pipeworkmc_codec::{
 };
 
 
+/// Alerts the server that the client has loaded in properly.
 #[derive(Debug)]
 pub struct C2SPlayLoadedPacket;
 
@@ -24,7 +28,8 @@ impl PacketDecode for C2SPlayLoadedPacket {
     type Error = !;
 
     #[inline(always)]
-    fn decode(_ : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(_ : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self) }
 }

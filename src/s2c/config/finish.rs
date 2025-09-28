@@ -1,3 +1,6 @@
+//! Clientbound configuration finish packet.
+
+
 use crate::s2c::{
     S2CPackets,
     config::S2CConfigPackets
@@ -15,6 +18,7 @@ use pipeworkmc_codec::{
 };
 
 
+/// Informs the client that future packets will be in the play state.
 #[derive(Debug)]
 pub struct S2CConfigFinishPacket;
 

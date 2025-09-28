@@ -1,3 +1,6 @@
+//! Clientbound play add character packet.
+
+
 use crate::s2c::{
     S2CPackets,
     play::S2CPlayPackets
@@ -27,14 +30,22 @@ use pipeworkmc_data::{
 };
 
 
+/// Spawns a new character in the player's world.
 #[derive(Debug)]
 pub struct S2CPlayAddCharacterPacket {
+    /// The ID of the character.
     pub eid  : CharacterId,
+    /// The UUID of the character.
     pub uuid : Uuid,
+    /// The type of character.
     pub ty   : CharacterType,
+    /// Spawn position.
     pub pos  : CharacterPos,
+    /// Initial rotation.
     pub rot  : CharacterRot,
+    /// Special character type specific data.
     pub data : u32,
+    /// Initial velocity.
     pub vel  : CharacterVel
 }
 

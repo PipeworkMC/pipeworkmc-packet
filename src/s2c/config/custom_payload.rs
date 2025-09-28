@@ -1,3 +1,6 @@
+//! Clientbound configuration custom payload packet.
+
+
 use crate::s2c::{
     S2CPackets,
     config::S2CConfigPackets
@@ -16,8 +19,10 @@ use pipeworkmc_codec::{
 use pipeworkmc_data::channel_data::ChannelData;
 
 
+/// Custom data sent to the client.
 #[derive(Debug)]
 pub struct S2CConfigCustomPayloadPacket<'l> {
+    /// Custom data.
     pub data : ChannelData<'l>
 }
 

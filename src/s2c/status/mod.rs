@@ -1,3 +1,6 @@
+//! Clientbound status packets.
+
+
 use crate::s2c::S2CPackets;
 use pipeworkmc_codec::{
     encode::{
@@ -12,14 +15,18 @@ pub mod response;
 pub mod pong;
 
 
+/// Clientbound status packets.
 #[derive(Debug)]
 pub enum S2CStatusPackets<'l> {
-    Response (response ::S2CStatusResponsePacket<'l>),
-    Pong     (pong     ::S2CStatusPongPacket)
+    /// Response
+    Response(response::S2CStatusResponsePacket<'l>),
+    /// Pong
+    Pong(pong::S2CStatusPongPacket)
 }
 
 impl S2CStatusPackets<'_> {
 
+    /// Returns metadata about this packet.
     pub fn meta(&self) -> (u8, bool,) { match (self) { // TODO: Return a proper structure.
         Self::Response (_) => (response ::S2CStatusResponsePacket ::PREFIX, response ::S2CStatusResponsePacket ::KICK,),
         Self::Pong     (_) => (pong     ::S2CStatusPongPacket     ::PREFIX, pong     ::S2CStatusPongPacket     ::KICK,)

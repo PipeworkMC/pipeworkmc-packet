@@ -1,9 +1,16 @@
+//! Serverbound handshaking intention packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf,
+        DecodeIter,
         IncompleteDecodeError,
         string::StringDecodeError
+    },
+    encode::{
+        PacketEncode,
+        EncodeBuf
     },
     meta::{
         PacketMeta,
@@ -18,11 +25,16 @@ use pipeworkmc_data::varint::{
 use core::fmt::{ self, Display, Formatter };
 
 
+/// Informs the server about what the client intends to do with the current connection.
 #[derive(Debug)]
 pub struct C2SHandshakeIntentionPacket {
+    /// The client's game protocol version.
     pub protocol       : VarInt<u32>,
+    /// What address the client used to connect to the server.
     pub server_address : String,
+    /// What port the client used to connect to the server.
     pub server_port    : u16,
+    /// What the client intends to do with the current connection.
     pub intent         : Intention
 }
 
@@ -35,13 +47,14 @@ impl PacketMeta for C2SHandshakeIntentionPacket {
 impl PacketDecode for C2SHandshakeIntentionPacket {
     type Error = C2SHandshakeIntentionDecodeError;
 
-    fn decode(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        protocol       : <_>::decode(buf).map_err(C2SHandshakeIntentionDecodeError::Protocol)?,
-        server_address : <_>::decode(buf).map_err(C2SHandshakeIntentionDecodeError::Address)?,
-        server_port    : <_>::decode(buf).map_err(C2SHandshakeIntentionDecodeError::Port)?,
-        intent         : match (*VarInt::<u32>::decode(buf).map_err(C2SHandshakeIntentionDecodeError::Intent)?) {
+        protocol       : { <_>::decode(iter).map_err(C2SHandshakeIntentionDecodeError::Protocol)? },
+        server_address : { <_>::decode(iter).map_err(C2SHandshakeIntentionDecodeError::Address)? },
+        server_port    : { <_>::decode(iter).map_err(C2SHandshakeIntentionDecodeError::Port)? },
+        intent         : match (*VarInt::<u32>::decode(iter).map_err(C2SHandshakeIntentionDecodeError::Intent)?) {
             1 => Intention::Status,
             2 => Intention::Login { is_transfer : false },
             3 => Intention::Login { is_transfer : true },
@@ -50,22 +63,59 @@ impl PacketDecode for C2SHandshakeIntentionPacket {
     }) }
 }
 
+unsafe impl PacketEncode for C2SHandshakeIntentionPacket {
 
-#[derive(Debug)]
+    fn encode_len(&self) -> usize {
+        self.protocol.encode_len()
+        + self.server_address.encode_len()
+        + self.server_port.encode_len()
+        + VarInt::<u32>(self.intent.as_u32()).encode_len()
+    }
+
+    unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
+        self.protocol.encode(buf);
+        self.server_address.encode(buf);
+        self.server_port.encode(buf);
+        VarInt::<u32>(self.intent.as_u32()).encode(buf);
+    } }
+
+}
+
+
+/// What the client intends to do with the current connection.
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub enum Intention {
+    /// Server list status request.
     Status,
+    /// Login as a player.
     Login {
+        /// Whether the player is transferring from another server.
         is_transfer : bool
     }
 }
 
+impl Intention {
+    /// Returns this [`Intention`] as an integer.
+    pub fn as_u32(self) -> u32 { match (self) {
+        Intention::Status                        => 1,
+        Intention::Login { is_transfer : false } => 2,
+        Intention::Login { is_transfer : true  } => 3
+    } }
+}
 
+
+/// Returned by packet decoders when a `C2SHandshakeIntentionPacket` was not decoded successfully.
 #[derive(Debug)]
 pub enum C2SHandshakeIntentionDecodeError {
+    /// The protocol ID failed to decode.
     Protocol(VarIntDecodeError),
+    /// The connection address failed to decode.
     Address(StringDecodeError),
+    /// The connection port failed to decode.
     Port(IncompleteDecodeError),
+    /// The intention failed to decode.
     Intent(VarIntDecodeError),
+    /// An unknown intention was found.
     UnknownIntention(u32)
 }
 impl Display for C2SHandshakeIntentionDecodeError {

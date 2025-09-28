@@ -1,8 +1,11 @@
+//! Serverbound status packets.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
         PrefixedPacketDecode,
-        DecodeBuf,
+        DecodeIter,
         IncompleteDecodeError
     },
     meta::PacketMeta
@@ -17,21 +20,25 @@ pub mod request;
 pub mod ping;
 
 
+/// Serverbound status packets.
 #[derive(Debug)]
 pub enum C2SStatusPackets {
-    Request (request ::C2SStatusRequestPacket),
-    Ping    (ping    ::C2SStatusPingPacket)
+    /// Request
+    Request(request::C2SStatusRequestPacket),
+    /// Ping
+    Ping(ping::C2SStatusPingPacket)
 }
 
 impl PrefixedPacketDecode for C2SStatusPackets {
     type Error = C2SStatusDecodeError;
 
-    fn decode_prefixed(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode_prefixed<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     {
-        Ok(match (buf.read().map_err(C2SStatusDecodeError::Incomplete)?) {
-            request ::C2SStatusRequestPacket ::PREFIX => Self::Request (request ::C2SStatusRequestPacket ::decode(buf)?),
-            ping    ::C2SStatusPingPacket    ::PREFIX => Self::Ping    (ping    ::C2SStatusPingPacket    ::decode(buf).map_err(C2SStatusDecodeError::Ping)?),
+        Ok(match (iter.read().map_err(C2SStatusDecodeError::Prefix)?) {
+            request ::C2SStatusRequestPacket ::PREFIX => Self::Request (request ::C2SStatusRequestPacket ::decode(iter)?),
+            ping    ::C2SStatusPingPacket    ::PREFIX => Self::Ping    (ping    ::C2SStatusPingPacket    ::decode(iter).map_err(C2SStatusDecodeError::Ping)?),
 
             v => { return Err(C2SStatusDecodeError::UnknownPrefix(v)); }
         })
@@ -39,10 +46,14 @@ impl PrefixedPacketDecode for C2SStatusPackets {
 }
 
 
+/// Returned by packet decoders when a `C2SStatusPackets` was not decoded successfully.
 #[derive(Debug)]
 pub enum C2SStatusDecodeError {
-    Incomplete(IncompleteDecodeError),
-    Ping (IncompleteDecodeError),
+    /// There were not enough bytes to decode a packet ID.
+    Prefix(IncompleteDecodeError),
+    /// A `C2SStatusPingPacket` failed to decode.
+    Ping(IncompleteDecodeError),
+    /// An unrecognised packet ID was found.
     UnknownPrefix(u8)
 }
 impl From<!> for C2SStatusDecodeError {
@@ -51,7 +62,7 @@ impl From<!> for C2SStatusDecodeError {
 }
 impl Display for C2SStatusDecodeError {
     fn fmt(&self, f : &mut Formatter<'_>) -> fmt::Result { match (self) {
-        Self::Incomplete(err)   => err.fmt(f),
+        Self::Prefix(err)       => err.fmt(f),
         Self::Ping (err)        => write!(f, "ping {err}"),
         Self::UnknownPrefix (b) => write!(f, "unknown prefix `0x{b:0>2X}`"),
     } }

@@ -1,3 +1,6 @@
+//! Clientbound status response packet.
+
+
 use crate::s2c::{
     S2CPackets,
     status::S2CStatusPackets
@@ -30,6 +33,7 @@ use serde::{
 use serde_json::to_string as to_json_string;
 
 
+/// Sends server list information to the client.
 #[derive(Debug)]
 pub struct S2CStatusResponsePacket<'l> {
     status_json : Cow<'l, str>
@@ -66,17 +70,26 @@ impl<'l> From<S2CStatusResponsePacket<'l>> for S2CStatusPackets<'l> {
 }
 
 
+/// Server list information.
 #[derive(Ser)]
 pub struct Status<'l> {
+    /// Server version.
     pub version               : StatusVersion<'l>,
+    /// Online player information.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub players               : Option<StatusPlayers>,
+    /// The server list message of the day text.
     #[serde(rename = "description", skip_serializing_if = "Option::is_none")]
     pub motd                  : Option<Text>,
+    /// A base 64 PNG image.
+    ///
+    /// Do not include `data:image/png;base64,` at the start.
     #[serde(skip_serializing_if = "Option::is_none", serialize_with = "add_png_b64_header")]
     pub favicon               : Option<Cow<'l, str>>,
+    /// Whether the server requires chat message signatures.
     #[serde(rename = "enforcesSecureChat")]
-    pub enforces_secure_chat  : bool,
+    pub requires_chat_signing : bool,
+    /// Whether the server has a mod like No Chat Reports which strips chat message signatures.
     #[serde(rename = "preventsChatReports")]
     pub prevents_chat_reports : bool
 }
@@ -88,24 +101,34 @@ fn add_png_b64_header<'l, S : Serer>(png_b64 : &Option<Cow<'l, str>>, ser : S) -
     }
 }
 
+/// Server list version information.
 #[derive(Ser)]
 pub struct StatusVersion<'l> {
+    /// Name of the version.
     pub name     : Cow<'l, str>,
+    /// Protocol ID of the version.
     pub protocol : u32
 }
 
+/// Server list player information.
 #[derive(Ser)]
 pub struct StatusPlayers {
+    /// Number of players currently online.
     #[serde(rename = "online")]
     pub current : u32,
+    /// Maximum number of players allowed on the server.
     pub max     : u32,
+    /// A sample of online players.
     pub sample  : Cow<'static, [StatusPlayer]>
 }
 
+/// An entry in the server list player sample.
 #[derive(Ser, Clone)]
 pub struct StatusPlayer {
+    /// UUID of the player.
     #[serde(rename = "id")]
     pub uuid : Uuid,
+    /// Name of the player.
     pub name : String
 }
 
@@ -119,7 +142,7 @@ impl Default for Status<'_> {
             .. TextComponent::EMPTY
         }]) }),
         favicon               : None,
-        enforces_secure_chat  : false,
+        requires_chat_signing : false,
         prevents_chat_reports : true
     } }
 }

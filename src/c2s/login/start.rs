@@ -1,7 +1,10 @@
+//! Serverbound login start packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf,
+        DecodeIter,
         IncompleteDecodeError
     },
     meta::{
@@ -20,9 +23,12 @@ use pipeworkmc_data::{
 use core::fmt::{ self, Display, Formatter };
 
 
+/// Informs the server that the client would like to log in.
 #[derive(Debug)]
 pub struct C2SLoginStartPacket {
+    /// The username that the client would like to log in with.
     pub username : BoundedString<16>,
+    /// The account UUID that the client would like to log in with.
     pub uuid     : Uuid
 }
 
@@ -36,18 +42,22 @@ impl PacketDecode for C2SLoginStartPacket {
     type Error = C2SLoginStartDecodeError;
 
     #[inline]
-    fn decode(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        username : <_>::decode(buf).map_err(C2SLoginStartDecodeError::Username)?, // TODO: Validate username characters
-        uuid     : <_>::decode(buf).map_err(C2SLoginStartDecodeError::Uuid)?
+        username : <_>::decode(iter).map_err(C2SLoginStartDecodeError::Username)?, // TODO: Validate username characters
+        uuid     : <_>::decode(iter).map_err(C2SLoginStartDecodeError::Uuid)?
     }) }
 }
 
 
+/// Returned by packet decoders when a `C2SLoginStartPacket` was not decoded successfully.
 #[derive(Debug)]
 pub enum C2SLoginStartDecodeError {
+    /// The username failed to decode.
     Username(BoundedStringDecodeError),
+    /// The UUID failed to decode.
     Uuid(IncompleteDecodeError)
 }
 impl Display for C2SLoginStartDecodeError {

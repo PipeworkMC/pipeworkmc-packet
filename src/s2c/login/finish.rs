@@ -1,3 +1,6 @@
+//! Clientbound login finish packet.
+
+
 use crate::s2c::{
     S2CPackets,
     login::S2CLoginPackets
@@ -16,8 +19,10 @@ use pipeworkmc_codec::{
 use pipeworkmc_data::profile::AccountProfile;
 
 
+/// Informs the client that future packets will be in the configuration state.
 #[derive(Debug)]
 pub struct S2CLoginFinishPacket {
+    /// The profile that the server recognises the client as.
     pub profile : AccountProfile
 }
 

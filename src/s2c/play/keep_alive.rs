@@ -1,3 +1,6 @@
+//! Clientbound play keep alive packet.
+
+
 use crate::s2c::{
     S2CPackets,
     play::S2CPlayPackets
@@ -15,8 +18,10 @@ use pipeworkmc_codec::{
 };
 
 
+/// Lets the client know that the connection is still alive.
 #[derive(Debug)]
 pub struct S2CPlayKeepAlivePacket {
+    /// ID of the keepalive. The client will respond with the same ID.
     pub id : u64
 }
 

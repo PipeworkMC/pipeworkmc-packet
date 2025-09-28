@@ -1,7 +1,10 @@
+//! Serverbound login encrypt response packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf,
+        DecodeIter,
         vec::VecDecodeError
     },
     meta::{
@@ -14,9 +17,12 @@ use pipeworkmc_data::redacted::Redacted;
 use core::fmt::{ self, Display, Formatter };
 
 
+/// Informs the server of the secret key to use for all future communication.
 #[derive(Debug)]
 pub struct C2SLoginEncryptResponsePacket {
+    /// The secret key, encrypted using the server's public key.
     pub encrypted_secret_key : Redacted<Vec<u8>>,
+    /// The previously sent verify token, now encrypted using the server's public key.
     pub encrypted_vtoken     : Vec<u8>
 }
 
@@ -30,18 +36,22 @@ impl PacketDecode for C2SLoginEncryptResponsePacket {
     type Error = C2SLoginEncryptResponseDecodeError;
 
     #[inline]
-    fn decode(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        encrypted_secret_key : Redacted::from(<Vec<u8>>::decode(buf).map_err(C2SLoginEncryptResponseDecodeError::SecretKey)?), // TODO: Validate username characters
-        encrypted_vtoken     : <_>::decode(buf).map_err(C2SLoginEncryptResponseDecodeError::VerifyToken)?
+        encrypted_secret_key : Redacted::from(<Vec<u8>>::decode(iter).map_err(C2SLoginEncryptResponseDecodeError::SecretKey)?),
+        encrypted_vtoken     : <_>::decode(iter).map_err(C2SLoginEncryptResponseDecodeError::VerifyToken)?
     }) }
 }
 
 
+/// Returned by packet decoders when a `C2SLoginEncryptResponsePacket` was not decoded successfully.
 #[derive(Debug)]
 pub enum C2SLoginEncryptResponseDecodeError {
+    /// The secret key failed to decode.
     SecretKey(VecDecodeError<<u8 as PacketDecode>::Error>),
+    /// The verify token failed to decode.
     VerifyToken(VecDecodeError<<u8 as PacketDecode>::Error>)
 }
 impl Display for C2SLoginEncryptResponseDecodeError {

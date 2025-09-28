@@ -1,7 +1,10 @@
+//! Serverbound configuration client info packet.
+
+
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeBuf
+        DecodeIter
     },
     meta::{
         PacketMeta,
@@ -15,8 +18,10 @@ use pipeworkmc_data::client_info::{
 };
 
 
+/// Informs the server that some client settings have been updated.
 #[derive(Debug)]
 pub struct C2SConfigClientInfoPacket {
+    /// New client settings.
     pub info : ClientInfo
 }
 
@@ -29,9 +34,10 @@ impl PacketMeta for C2SConfigClientInfoPacket {
 impl PacketDecode for C2SConfigClientInfoPacket {
     type Error = ClientInfoDecodeError;
 
-    fn decode(buf : &mut DecodeBuf<'_>)
-        -> Result<Self, Self::Error>
+    fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
+    where
+        I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        info : <_>::decode(buf)?
+        info : <_>::decode(iter)?
     }) }
 }

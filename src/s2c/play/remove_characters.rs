@@ -1,3 +1,6 @@
+//! Clientbound play remove characters packet.
+
+
 use crate::s2c::{
     S2CPackets,
     play::S2CPlayPackets
@@ -20,8 +23,10 @@ use pipeworkmc_data::{
 use std::borrow::Cow;
 
 
+/// Destroys an entity on the client.
 #[derive(Debug)]
 pub struct S2CPlayRemoveCharactersPacket<'l> {
+    /// IDs of characters to remove.
     pub eids : Cow<'l, [CharacterId]>
 }
 

@@ -1,3 +1,6 @@
+//! Clientbound login compression packet.
+
+
 use crate::s2c::{
     S2CPackets,
     login::S2CLoginPackets
@@ -16,8 +19,10 @@ use pipeworkmc_codec::{
 use pipeworkmc_data::varint::VarInt;
 
 
+/// Sets the compression threshold to use for all future communication.
 #[derive(Debug)]
 pub struct S2CLoginCompressionPacket {
+    /// Maximum size of a packet before being compressed.
     pub threshold : u32
 }
 
