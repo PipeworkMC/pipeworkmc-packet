@@ -1,91 +1,35 @@
 //! Clientbound configuration packets.
 
 
-use crate::s2c::S2CPackets;
-use pipeworkmc_codec::{
-    encode::{
-        EncodeBuf,
-        PrefixedPacketEncode
-    },
-    meta::PacketMeta
-};
-
-
+// TODO: cookie_request
 pub mod custom_payload;
 pub mod disconnect;
 pub mod finish;
 pub mod keep_alive;
+// TODO: ping
+// TODO: reset_chat
 pub mod registry_data;
+// TODO: remove_resource_pack
+// TODO: add_resource_pack
+// TODO: store_cookie
+// TODO: transfer
+// TODO: feature_flags
+// TODO: update_tags
 pub mod known_packs;
+// TODO: custom_report_details
+// TODO: server_links
+// TODO: clear_dialog
+// TODO: show_dialog
 
 
-/// Clientbound configuration packets.
-#[derive(Debug)]
-pub enum S2CConfigPackets<'l> {
-    // TODO: CookieRequest
-    /// Custom payload
-    CustomPayload(custom_payload::S2CConfigCustomPayloadPacket<'l>),
-    /// Disconnect
-    Disconnect(disconnect::S2CConfigDisconnectPacket),
-    /// Finish
-    Finish(finish::S2CConfigFinishPacket),
-    /// Keep alive
-    KeepAlive(keep_alive::S2CConfigKeepAlivePacket),
-    // TODO: Ping
-    // TODO: ResetChat
-    /// Registry data
-    RegistryData(registry_data::S2CConfigRegistryDataPacket<'l>),
-    // TODO: RemoveResourcePack
-    // TODO: AddResourcePack
-    // TODO: StoreCookie
-    // TODO: Transfer
-    // TODO: FeatureFlags
-    // TODO: UpdateTags
-    /// Known packs
-    KnownPacks(known_packs::S2CConfigKnownPacksPacket<'l>)
-    // TODO: CustomReportDetails
-    // TODO: ServerLinks
-    // TODO: ClearDialog
-    // TODO: ShowDialog
-}
-
-impl S2CConfigPackets<'_> {
-
-    /// Returns metadata about this packet.
-    pub fn meta(&self) -> (u8, bool,) { match (self) { // TODO: Return a proper structure.
-        Self::CustomPayload (_) => (custom_payload ::S2CConfigCustomPayloadPacket ::PREFIX, custom_payload ::S2CConfigCustomPayloadPacket ::KICK,),
-        Self::Disconnect    (_) => (disconnect     ::S2CConfigDisconnectPacket    ::PREFIX, disconnect     ::S2CConfigDisconnectPacket    ::KICK,),
-        Self::Finish        (_) => (finish         ::S2CConfigFinishPacket        ::PREFIX, finish         ::S2CConfigFinishPacket        ::KICK,),
-        Self::KeepAlive     (_) => (keep_alive     ::S2CConfigKeepAlivePacket     ::PREFIX, keep_alive     ::S2CConfigKeepAlivePacket     ::KICK,),
-        Self::RegistryData  (_) => (registry_data  ::S2CConfigRegistryDataPacket  ::PREFIX, registry_data  ::S2CConfigRegistryDataPacket  ::KICK,),
-        Self::KnownPacks    (_) => (known_packs    ::S2CConfigKnownPacksPacket    ::PREFIX, known_packs    ::S2CConfigKnownPacksPacket    ::KICK,)
-    } }
-
-}
-
-unsafe impl PrefixedPacketEncode for S2CConfigPackets<'_> {
-
-    fn encode_prefixed_len(&self) -> usize { match (self) {
-        Self::CustomPayload (packet) => packet.encode_prefixed_len(),
-        Self::Disconnect    (packet) => packet.encode_prefixed_len(),
-        Self::Finish        (packet) => packet.encode_prefixed_len(),
-        Self::KeepAlive     (packet) => packet.encode_prefixed_len(),
-        Self::RegistryData  (packet) => packet.encode_prefixed_len(),
-        Self::KnownPacks    (packet) => packet.encode_prefixed_len()
-    } }
-
-    unsafe fn encode_prefixed(&self, buf : &mut EncodeBuf) { unsafe { match (self) {
-        Self::CustomPayload (packet) => packet.encode_prefixed(buf),
-        Self::Disconnect    (packet) => packet.encode_prefixed(buf),
-        Self::Finish        (packet) => packet.encode_prefixed(buf),
-        Self::KeepAlive     (packet) => packet.encode_prefixed(buf),
-        Self::RegistryData  (packet) => packet.encode_prefixed(buf),
-        Self::KnownPacks    (packet) => packet.encode_prefixed(buf)
-    } } }
-
-}
-
-impl<'l> From<S2CConfigPackets<'l>> for S2CPackets<'l> {
-    #[inline(always)]
-    fn from(value : S2CConfigPackets<'l>) -> Self { Self::Config(value) }
-}
+super::packet_group!(
+    "configuration" Config S2CConfigPackets<'l>, meta,
+    {
+        "custom payload" CustomPayload => custom_payload ::S2CConfigCustomPayloadPacket<'l>,
+        "disconnect"     Disconnect    => disconnect     ::S2CConfigDisconnectPacket,
+        "finish"         Finish        => finish         ::S2CConfigFinishPacket,
+        "keep_alive"     KeepAlive     => keep_alive     ::S2CConfigKeepAlivePacket,
+        "registry_data"  RegistryData  => registry_data  ::S2CConfigRegistryDataPacket<'l>,
+        "known_packs"    KnownPacks    => known_packs    ::S2CConfigKnownPacksPacket<'l>
+    }
+);

@@ -4,7 +4,11 @@
 #![feature(
 
     // Language
-    never_type
+    never_type,
+
+    // Syntax
+    decl_macro,
+    macro_metavar_expr
 
 )]
 

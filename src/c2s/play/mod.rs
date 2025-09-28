@@ -1,143 +1,80 @@
 //! Serverbound play packets.
 
 
-use pipeworkmc_codec::{
-    decode::{
-        PacketDecode,
-        PrefixedPacketDecode,
-        DecodeIter,
-        IncompleteDecodeError
-    },
-    meta::PacketMeta
-};
-use pipeworkmc_data::channel_data::ChannelDataDecodeError;
-use core::{
-    fmt::{ self, Display, Formatter },
-    hint::unreachable_unchecked
-};
-
-
+// TODO: confirm_teleport
+// TODO: query_block_entity_tag
+// TODO: bundle_item_selected
+// TODO: change_difficulty
+// TODO: acknowledge_message
+// TODO: chat_command
+// TODO: signed_chat_command
+// TODO: chat_message
+// TODO: player_session
+// TODO: chunk_batch_received
+// TODO: client_status
 pub mod tick_end;
+// TODO: client_info
+// TODO: command_suggestions_request
+// TODO: acknowledge_config
+// TODO: click_container_button
+// TODO: click_container
+// TODO: close_container
+// TODO: change_container_slot_state
+// TODO: cookie_response
 pub mod custom_payload;
+// TODO: debug_sample_subscription
+// TODO: edit_book
+// TODO: query_entity_tag
+// TODO: interact
+// TODO: jigsaw_generate
 pub mod keep_alive;
+// TODO: lock_difficulty
+// TODO: set_player_pos
+// TODO: set_player_pos_and_rot
+// TODO: set_player_player_rot
+// TODO: set_player_move_flags
+// TODO: move_vehicle
+// TODO: paddle_boat
+// TODO: pick_block
+// TODO: pick_entity
+// TODO: ping
+// TODO: place_recipe
+// TODO: player_abilities
+// TODO: player_action
+// TODO: player_command
+// TODO: player_input
 pub mod loaded;
+// TODO: pong
+// TODO: change_recipe_book_settings
+// TODO: set_seen_Recipe
+// TODO: rename_item
+// TODO: resource_pack_response
+// TODO: seen_advancements
+// TODO: select_trade
+// TODO: set_beacon_effect
+// TODO: set_hotbar
+// TODO: program_command_block
+// TODO: program_command_block_minecart
+// TODO: set_creative_mode_slot
+// TODO: program_jigsaw_block
+// TODO: program_structure_block
+// TODO: progrma_test_block
+// TODO: update_sign
+// TODO: swing_arm
+// TODO: teleport_to_entity
+// TODO: test_instance_block_action
+// TODO: use_item_on
+// TODO: use_item
+// TODO: custom_click_action
 
 
-/// Serverbound play packets.
-#[derive(Debug)]
-pub enum C2SPlayPackets {
-    // TODO: ConfirmTeleport
-    // TODO: QueryBlockEntityTag
-    // TODO: BundleItemSelected
-    // TODO: ChangeDifficulty
-    // TODO: ChangeGameMode
-    // TODO: AcknowledgeMessage
-    // TODO: ChatCommand
-    // TODO: SignedChatCommand
-    // TODO: ChatMessage
-    // TODO: PlayerSession
-    // TODO: ChunkBatchReceived
-    // TODO: ClientStatus
-    /// Tick end
-    TickEnd(tick_end::C2SPlayTickEndPacket),
-    // TODO: ClientInfo
-    // TODO: CommandSuggestionsRequest
-    // TODO: AcknowledgeConfig
-    // TODO: ClickContainerButton
-    // TODO: ClickContainer
-    // TODO: CloseContinaer
-    // TODO: ChangeContainerSlotState
-    // TODO: CookieResponse
-    /// Custom payload
-    CustomPayload(custom_payload::C2SPlayCustomPayloadPacket),
-    // TODO: DebugSampleSubscription
-    // TODO: EditBook
-    // TODO: QueryEntityTag
-    // TODO: Interact
-    // TODO: JigsawGenerate
-    /// Keep alive
-    KeepAlive(keep_alive::C2SPlayKeepAlivePacket),
-    // TODO: LockDifficulty
-    // TODO: SetPlayerPos
-    // TODO: SetPlayerPosAndRot
-    // TODO: SetPlayerRot
-    // TODO: SetPlayerMovementFlags
-    // TODO: MoveVehicle
-    // TODO: PaddleBoat
-    // TODO: PickBlock
-    // TODO: PickEntity
-    // TODO: PingRequest
-    // TODO: PlaceRecipe
-    // TODO: PlayerAbilities
-    // TODO: PlayerAction
-    // TODO: PlayerCommand
-    // TODO: PlayerInput
-    /// Loaded
-    Loaded(loaded::C2SPlayLoadedPacket)
-    // TODO: Pong
-    // TODO: ChangeRecipeBookSettings
-    // TODO: SetSeenRecipe
-    // TODO: RenameItem
-    // TODO: ResourcePackResponse
-    // TODO: SeenAdvancements
-    // TODO: SelectTrade
-    // TODO: SetBeaconEffect
-    // TODO: SetHeldItem
-    // TODO: ProgramCommandBlock
-    // TODO: ProgramCommandBlockMinecart
-    // TODO: SetCreativeModeSlot
-    // TODO: ProgramJigsawBlock
-    // TODO: ProgramStructureBlock
-    // TODO: SetTestBlock
-    // TODO: UpdateSign
-    // TODO: SwingArm
-    // TODO: TeleportToEntity
-    // TODO: TestInstanceBlockAction
-    // TODO: UseItemOn
-    // TODO: UseItem
-    // TODO: CustomClickAction
-}
-
-impl PrefixedPacketDecode for C2SPlayPackets {
-    type Error = C2SPlayDecodeError;
-
-    fn decode_prefixed<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
-    where
-        I : ExactSizeIterator<Item = u8>
+super::packet_group!(
+    "play" C2SPlayPackets,
+    C2SPlayDecodeError,
     {
-        Ok(match (iter.read().map_err(C2SPlayDecodeError::Prefix)?) {
-            tick_end       ::C2SPlayTickEndPacket       ::PREFIX => Self::TickEnd       (tick_end       ::C2SPlayTickEndPacket       ::decode(iter)?),
-            custom_payload ::C2SPlayCustomPayloadPacket ::PREFIX => Self::CustomPayload (custom_payload ::C2SPlayCustomPayloadPacket ::decode(iter).map_err(C2SPlayDecodeError::CustomPayload)?),
-            keep_alive     ::C2SPlayKeepAlivePacket     ::PREFIX => Self::KeepAlive     (keep_alive     ::C2SPlayKeepAlivePacket     ::decode(iter).map_err(C2SPlayDecodeError::KeepAlive)?),
-            loaded         ::C2SPlayLoadedPacket        ::PREFIX => Self::Loaded        (loaded         ::C2SPlayLoadedPacket        ::decode(iter)?),
-
-            v => { return Err(C2SPlayDecodeError::UnknownPrefix(v)); }
-        })
+        "tick end"       TickEnd       => tick_end       ::C2SPlayTickEndPacket,
+        "custom payload" CustomPayload => custom_payload ::C2SPlayCustomPayloadPacket,
+        "keep alive"     KeepAlive     => keep_alive     ::C2SPlayKeepAlivePacket,
+        "loaded"         Loaded        => loaded         ::C2SPlayLoadedPacket
     }
-}
-
-
-/// Returned by packet decoders when a `C2SPlayPackets` was not decoded successfully.
-#[derive(Debug)]
-pub enum C2SPlayDecodeError {
-    /// There were not enough bytes to decode a packet ID.
-    Prefix(IncompleteDecodeError),
-    /// A `C2SPlayCustomPayloadPacket` failed to decode.
-    CustomPayload(ChannelDataDecodeError),
-    /// A `C2SPlayKeepAlivePacket` failed to decode.
-    KeepAlive(IncompleteDecodeError),
-    /// An unrecognised packet ID was found.
-    UnknownPrefix(u8)
-}
-impl From<!> for C2SPlayDecodeError {
-    #[inline(always)]
-    fn from(_ : !) -> Self { unsafe { unreachable_unchecked() } }
-}
-impl Display for C2SPlayDecodeError {
-    fn fmt(&self, f : &mut Formatter<'_>) -> fmt::Result { match (self) {
-        Self::Prefix(err)        => err.fmt(f),
-        Self::CustomPayload(err) => write!(f, "custom payload {err}"),
-        Self::KeepAlive(err)     => write!(f, "keep alive {err}"),
-        Self::UnknownPrefix(b)   => write!(f, "unknown prefix `0x{b:0>2X}`"),
-    } }
-}
+);

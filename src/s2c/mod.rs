@@ -6,7 +6,10 @@ use pipeworkmc_codec::{
         PrefixedPacketEncode,
         EncodeBuf
     },
-    meta::PacketState
+    meta::{
+        PacketMeta,
+        PacketState
+    }
 };
 
 
@@ -56,5 +59,46 @@ unsafe impl PrefixedPacketEncode for S2CPackets<'_> {
         S2CPackets::Config (packet) => packet.encode_prefixed(buf),
         S2CPackets::Play   (packet) => packet.encode_prefixed(buf)
     } } }
+
+}
+
+
+macro packet_group(
+    $state:tt $statevar:ident $group:ident $(<$lt:lifetime>)?, $meta:ident,
+    { $( $name:tt $variant:ident => $ty:ty ),* $(,)? }
+) {
+
+    #[doc = concat!("Clientbound", $state, "packets.")]
+    #[derive(Debug)]
+    pub enum $group$(<$lt>)? { $(
+        #[doc = $name]
+        $variant( $ty ),
+    )* }
+
+    impl$(<$lt>)? $group$(<$lt>)? {
+        /// Returns metadata about this packet.
+        pub fn $meta(&self) -> (u8, bool,) { match (self) { $( // TODO: Return a proper structure.
+            Self::$variant (_) => (<$ty as PacketMeta>::PREFIX, <$ty as PacketMeta>::KICK,),
+        )* } }
+    }
+
+    unsafe impl$(<$lt>)? PrefixedPacketEncode for $group$(<$lt>)? {
+
+        fn encode_prefixed_len(&self) -> usize { match (self) { $(
+            Self::$variant (packet) => packet.encode_prefixed_len(),
+        )* } }
+
+        unsafe fn encode_prefixed(&self, buf : &mut EncodeBuf) { unsafe { match (self) { $(
+            Self::$variant (packet) => packet.encode_prefixed(buf),
+        )* } } }
+
+    }
+
+    impl<'l> From<$group$(<'l> ${ignore($lt)})?> for S2CPackets<'l> {
+        #[inline(always)]
+        fn from(value : $group$(<'l> ${ignore($lt)})?) -> Self {
+            Self::$statevar(value)
+        }
+    }
 
 }
