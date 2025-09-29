@@ -53,11 +53,11 @@ unsafe impl PacketEncode for S2CPlayRemoveCharactersPacket<'_> {
 }
 
 impl<'l> From<S2CPlayRemoveCharactersPacket<'l>> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayRemoveCharactersPacket<'l>) -> Self { Self::Play(value.into()) }
 }
 
 impl<'l> From<S2CPlayRemoveCharactersPacket<'l>> for S2CPlayPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayRemoveCharactersPacket<'l>) -> Self { Self::RemoveCharacters(value) }
 }

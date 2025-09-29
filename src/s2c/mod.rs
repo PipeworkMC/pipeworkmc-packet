@@ -95,7 +95,7 @@ macro packet_group(
     }
 
     impl<'l> From<$group$(<'l> ${ignore($lt)})?> for S2CPackets<'l> {
-        #[inline(always)]
+        #[inline]
         fn from(value : $group$(<'l> ${ignore($lt)})?) -> Self {
             Self::$statevar(value)
         }

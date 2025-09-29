@@ -33,12 +33,12 @@ impl PacketMeta for S2CStatusPongPacket {
 
 unsafe impl PacketEncode for S2CStatusPongPacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         PacketEncode::encode_len(&self.timestamp)
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.timestamp.encode(buf);
     } }
@@ -46,11 +46,11 @@ unsafe impl PacketEncode for S2CStatusPongPacket {
 }
 
 impl From<S2CStatusPongPacket> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CStatusPongPacket) -> Self { Self::Status(value.into()) }
 }
 
 impl From<S2CStatusPongPacket> for S2CStatusPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CStatusPongPacket) -> Self { Self::Pong(value) }
 }

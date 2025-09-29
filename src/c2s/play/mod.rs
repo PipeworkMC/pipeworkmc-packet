@@ -20,7 +20,7 @@ pub mod tick_end;
 // TODO: click_container
 // TODO: close_container
 // TODO: change_container_slot_state
-// TODO: cookie_response
+pub mod cookie_response;
 pub mod custom_payload;
 // TODO: debug_sample_subscription
 // TODO: edit_book
@@ -72,9 +72,10 @@ super::packet_group!(
     "play" C2SPlayPackets,
     C2SPlayDecodeError,
     {
-        "tick end"       TickEnd       => tick_end       ::C2SPlayTickEndPacket,
-        "custom payload" CustomPayload => custom_payload ::C2SPlayCustomPayloadPacket,
-        "keep alive"     KeepAlive     => keep_alive     ::C2SPlayKeepAlivePacket,
-        "loaded"         Loaded        => loaded         ::C2SPlayLoadedPacket
+        "tick end"        TickEnd        => tick_end        ::C2SPlayTickEndPacket,
+        "cookie response" CookieResponse => cookie_response ::C2SPlayCookieResponsePacket,
+        "custom payload"  CustomPayload  => custom_payload  ::C2SPlayCustomPayloadPacket,
+        "keep alive"      KeepAlive      => keep_alive      ::C2SPlayKeepAlivePacket,
+        "loaded"          Loaded         => loaded          ::C2SPlayLoadedPacket
     }
 );

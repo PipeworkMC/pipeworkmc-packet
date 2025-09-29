@@ -31,20 +31,20 @@ impl PacketMeta for S2CConfigFinishPacket {
 
 unsafe impl PacketEncode for S2CConfigFinishPacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize { 0 }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, _ : &mut EncodeBuf) { }
 
 }
 
 impl From<S2CConfigFinishPacket> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigFinishPacket) -> Self { Self::Config(value.into()) }
 }
 
 impl From<S2CConfigFinishPacket> for S2CConfigPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigFinishPacket) -> Self { Self::Finish(value) }
 }

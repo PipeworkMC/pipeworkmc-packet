@@ -36,12 +36,12 @@ impl PacketMeta for S2CConfigKnownPacksPacket<'_> {
 
 unsafe impl PacketEncode for S2CConfigKnownPacksPacket<'_> {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.known_packs.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.known_packs.encode(buf);
     } }
@@ -49,11 +49,11 @@ unsafe impl PacketEncode for S2CConfigKnownPacksPacket<'_> {
 }
 
 impl<'l> From<S2CConfigKnownPacksPacket<'l>> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigKnownPacksPacket<'l>) -> Self { Self::Config(value.into()) }
 }
 
 impl<'l> From<S2CConfigKnownPacksPacket<'l>> for S2CConfigPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigKnownPacksPacket<'l>) -> Self { Self::KnownPacks(value) }
 }

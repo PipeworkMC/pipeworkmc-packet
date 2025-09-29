@@ -35,12 +35,12 @@ impl PacketMeta for S2CLoginFinishPacket {
 
 unsafe impl PacketEncode for S2CLoginFinishPacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.profile.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.profile.encode(buf);
     } }
@@ -48,11 +48,11 @@ unsafe impl PacketEncode for S2CLoginFinishPacket {
 }
 
 impl<'l> From<S2CLoginFinishPacket> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CLoginFinishPacket) -> Self { Self::Login(value.into()) }
 }
 
 impl<'l> From<S2CLoginFinishPacket> for S2CLoginPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CLoginFinishPacket) -> Self { Self::Finish(value) }
 }

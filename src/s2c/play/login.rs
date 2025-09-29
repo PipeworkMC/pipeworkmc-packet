@@ -132,11 +132,11 @@ unsafe impl PacketEncode for S2CPlayLoginPacket<'_> {
 }
 
 impl<'l> From<S2CPlayLoginPacket<'l>> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayLoginPacket<'l>) -> Self { Self::Play(value.into()) }
 }
 
 impl<'l> From<S2CPlayLoginPacket<'l>> for S2CPlayPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayLoginPacket<'l>) -> Self { Self::Login(value) }
 }

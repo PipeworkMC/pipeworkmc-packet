@@ -35,12 +35,12 @@ impl PacketMeta for S2CLoginDisconnectPacket {
 
 unsafe impl PacketEncode for S2CLoginDisconnectPacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.reason_json.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.reason_json.encode(buf);
     } }
@@ -48,12 +48,12 @@ unsafe impl PacketEncode for S2CLoginDisconnectPacket {
 }
 
 impl<'l> From<S2CLoginDisconnectPacket> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CLoginDisconnectPacket) -> Self { Self::Login(value.into()) }
 }
 
 impl<'l> From<S2CLoginDisconnectPacket> for S2CLoginPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CLoginDisconnectPacket) -> Self { Self::Disconnect(value) }
 }
 

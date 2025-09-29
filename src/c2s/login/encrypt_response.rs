@@ -4,8 +4,7 @@
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeIter,
-        vec::VecDecodeError
+        DecodeIter
     },
     meta::{
         PacketMeta,
@@ -50,9 +49,9 @@ impl PacketDecode for C2SLoginEncryptResponsePacket {
 #[derive(Debug)]
 pub enum C2SLoginEncryptResponseDecodeError {
     /// The secret key failed to decode.
-    SecretKey(VecDecodeError<<u8 as PacketDecode>::Error>),
+    SecretKey(<Vec<u8> as PacketDecode>::Error),
     /// The verify token failed to decode.
-    VerifyToken(VecDecodeError<<u8 as PacketDecode>::Error>)
+    VerifyToken(<Vec<u8> as PacketDecode>::Error)
 }
 impl Display for C2SLoginEncryptResponseDecodeError {
     fn fmt(&self, f : &mut Formatter<'_>) -> fmt::Result { match (self) {

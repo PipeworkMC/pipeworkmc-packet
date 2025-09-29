@@ -35,12 +35,12 @@ impl PacketMeta for S2CConfigCustomPayloadPacket<'_> {
 
 unsafe impl PacketEncode for S2CConfigCustomPayloadPacket<'_> {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.data.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.data.encode(buf);
     } }
@@ -48,11 +48,11 @@ unsafe impl PacketEncode for S2CConfigCustomPayloadPacket<'_> {
 }
 
 impl<'l> From<S2CConfigCustomPayloadPacket<'l>> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigCustomPayloadPacket<'l>) -> Self { Self::Config(value.into()) }
 }
 
 impl<'l> From<S2CConfigCustomPayloadPacket<'l>> for S2CConfigPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigCustomPayloadPacket<'l>) -> Self { Self::CustomPayload(value) }
 }

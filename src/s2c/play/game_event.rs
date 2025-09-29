@@ -116,13 +116,13 @@ impl PacketMeta for S2CPlayGameEventPacket {
 
 unsafe impl PacketEncode for S2CPlayGameEventPacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         let (b, v,) = self.raw();
         b.encode_len() + v.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         let (b, v,) = self.raw();
         b.encode(buf);
@@ -132,11 +132,11 @@ unsafe impl PacketEncode for S2CPlayGameEventPacket {
 }
 
 impl From<S2CPlayGameEventPacket> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayGameEventPacket) -> Self { Self::Play(value.into()) }
 }
 
 impl From<S2CPlayGameEventPacket> for S2CPlayPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayGameEventPacket) -> Self { Self::GameEvent(value) }
 }

@@ -34,12 +34,12 @@ impl PacketMeta for S2CLoginCompressionPacket {
 
 unsafe impl PacketEncode for S2CLoginCompressionPacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         VarInt::<u32>(self.threshold).encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         VarInt::<u32>(self.threshold).encode(buf);
     } }
@@ -47,11 +47,11 @@ unsafe impl PacketEncode for S2CLoginCompressionPacket {
 }
 
 impl From<S2CLoginCompressionPacket> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CLoginCompressionPacket) -> Self { Self::Login(value.into()) }
 }
 
 impl From<S2CLoginCompressionPacket> for S2CLoginPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CLoginCompressionPacket) -> Self { Self::Compression(value) }
 }

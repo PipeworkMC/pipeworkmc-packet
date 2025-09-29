@@ -44,13 +44,13 @@ impl PacketMeta for S2CConfigRegistryDataPacket<'_> {
 
 unsafe impl PacketEncode for S2CConfigRegistryDataPacket<'_> {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.registry.encode_len()
         + self.entries.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.registry.encode(buf);
         self.entries.encode(buf);
@@ -59,12 +59,12 @@ unsafe impl PacketEncode for S2CConfigRegistryDataPacket<'_> {
 }
 
 impl<'l> From<S2CConfigRegistryDataPacket<'l>> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigRegistryDataPacket<'l>) -> Self { Self::Config(value.into()) }
 }
 
 impl<'l> From<S2CConfigRegistryDataPacket<'l>> for S2CConfigPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigRegistryDataPacket<'l>) -> Self { Self::RegistryData(value) }
 }
 

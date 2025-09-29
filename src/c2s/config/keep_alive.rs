@@ -31,7 +31,7 @@ impl PacketMeta for C2SConfigKeepAlivePacket {
 impl PacketDecode for C2SConfigKeepAlivePacket {
     type Error = IncompleteDecodeError;
 
-    #[inline(always)]
+    #[inline]
     fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
     where
         I : ExactSizeIterator<Item = u8>

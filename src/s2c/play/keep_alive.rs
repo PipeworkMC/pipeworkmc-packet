@@ -33,12 +33,12 @@ impl PacketMeta for S2CPlayKeepAlivePacket {
 
 unsafe impl PacketEncode for S2CPlayKeepAlivePacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.id.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.id.encode(buf);
     } }
@@ -46,11 +46,11 @@ unsafe impl PacketEncode for S2CPlayKeepAlivePacket {
 }
 
 impl From<S2CPlayKeepAlivePacket> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayKeepAlivePacket) -> Self { Self::Play(value.into()) }
 }
 
 impl From<S2CPlayKeepAlivePacket> for S2CPlayPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayKeepAlivePacket) -> Self { Self::KeepAlive(value) }
 }

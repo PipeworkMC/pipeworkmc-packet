@@ -47,12 +47,12 @@ impl PacketMeta for S2CStatusResponsePacket<'_> {
 
 unsafe impl PacketEncode for S2CStatusResponsePacket<'_> {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.status_json.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.status_json.encode(buf);
     } }
@@ -60,12 +60,12 @@ unsafe impl PacketEncode for S2CStatusResponsePacket<'_> {
 }
 
 impl<'l> From<S2CStatusResponsePacket<'l>> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CStatusResponsePacket<'l>) -> Self { Self::Status(value.into()) }
 }
 
 impl<'l> From<S2CStatusResponsePacket<'l>> for S2CStatusPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CStatusResponsePacket<'l>) -> Self { Self::Response(value) }
 }
 
@@ -170,19 +170,19 @@ impl From<Status<'_>> for S2CStatusResponsePacket<'_> {
 }
 
 impl From<&Status<'_>> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : &Status<'_>) -> Self { Self::Status(value.into()) }
 }
 impl From<Status<'_>> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : Status<'_>) -> Self { Self::Status(value.into()) }
 }
 
 impl From<&Status<'_>> for S2CStatusPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : &Status<'_>) -> Self { Self::Response(value.into()) }
 }
 impl From<Status<'_>> for S2CStatusPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : Status<'_>) -> Self { Self::Response(value.into()) }
 }

@@ -37,12 +37,12 @@ impl PacketMeta for S2CConfigDisconnectPacket {
 
 unsafe impl PacketEncode for S2CConfigDisconnectPacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.reason_nbt.len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         buf.write_slice(&self.reason_nbt);
     } }
@@ -50,12 +50,12 @@ unsafe impl PacketEncode for S2CConfigDisconnectPacket {
 }
 
 impl From<S2CConfigDisconnectPacket> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigDisconnectPacket) -> Self { Self::Config(value.into()) }
 }
 
 impl From<S2CConfigDisconnectPacket> for S2CConfigPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigDisconnectPacket) -> Self { Self::Disconnect(value) }
 }
 

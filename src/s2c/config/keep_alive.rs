@@ -33,12 +33,12 @@ impl PacketMeta for S2CConfigKeepAlivePacket {
 
 unsafe impl PacketEncode for S2CConfigKeepAlivePacket {
 
-    #[inline(always)]
+    #[inline]
     fn encode_len(&self) -> usize {
         self.id.encode_len()
     }
 
-    #[inline(always)]
+    #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         self.id.encode(buf);
     } }
@@ -46,11 +46,11 @@ unsafe impl PacketEncode for S2CConfigKeepAlivePacket {
 }
 
 impl From<S2CConfigKeepAlivePacket> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigKeepAlivePacket) -> Self { Self::Config(value.into()) }
 }
 
 impl From<S2CConfigKeepAlivePacket> for S2CConfigPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CConfigKeepAlivePacket) -> Self { Self::KeepAlive(value) }
 }

@@ -2,7 +2,7 @@
 
 
 pub mod client_info;
-// TODO: cookie_response
+pub mod cookie_response;
 pub mod custom_payload;
 pub mod finish_acknowledged;
 pub mod keep_alive;
@@ -17,6 +17,7 @@ super::packet_group!(
     C2SConfigDecodeError,
     {
         "client info"         ClientInfo         => client_info         ::C2SConfigClientInfoPacket,
+        "cookie response"     CookieResponse     => cookie_response     ::C2SConfigCookieResponsePacket,
         "custom payload"      CustomPayload      => custom_payload      ::C2SConfigCustomPayloadPacket,
         "finish acknowledged" FinishAcknowledged => finish_acknowledged ::C2SConfigFinishAcknowledgedPacket,
         "keep alive"          KeepAlive          => keep_alive          ::C2SConfigKeepAlivePacket,

@@ -64,11 +64,11 @@ unsafe impl PacketEncode for S2CLoginEncryptRequestPacket<'_> {
 }
 
 impl<'l> From<S2CLoginEncryptRequestPacket<'l>> for S2CPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CLoginEncryptRequestPacket<'l>) -> Self { Self::Login(value.into()) }
 }
 
 impl<'l> From<S2CLoginEncryptRequestPacket<'l>> for S2CLoginPackets<'l> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CLoginEncryptRequestPacket<'l>) -> Self { Self::EncryptRequest(value) }
 }

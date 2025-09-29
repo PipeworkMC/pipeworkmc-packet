@@ -4,8 +4,7 @@
 use pipeworkmc_codec::{
     decode::{
         PacketDecode,
-        DecodeIter,
-        vec::VecDecodeError
+        DecodeIter
     },
     meta::{
         PacketMeta,
@@ -13,10 +12,7 @@ use pipeworkmc_codec::{
         PacketBound
     }
 };
-use pipeworkmc_data::known_pack::{
-    KnownPack,
-    KnownPackDecodeError
-};
+use pipeworkmc_data::known_pack::KnownPack;
 
 
 /// Tells the server what data packs are present in the game.
@@ -33,7 +29,7 @@ impl PacketMeta for C2SConfigKnownPacksPacket {
 }
 
 impl PacketDecode for C2SConfigKnownPacksPacket {
-    type Error = VecDecodeError<KnownPackDecodeError>;
+    type Error = <Vec<KnownPack<'static>> as PacketDecode>::Error;
 
     fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
     where

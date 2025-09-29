@@ -27,7 +27,7 @@ impl PacketMeta for C2SStatusRequestPacket {
 impl PacketDecode for C2SStatusRequestPacket {
     type Error = !;
 
-    #[inline(always)]
+    #[inline]
     fn decode<I>(_ : &mut DecodeIter<I>) -> Result<Self, Self::Error>
     where
         I : ExactSizeIterator<Item = u8>

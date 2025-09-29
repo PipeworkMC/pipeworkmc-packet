@@ -92,11 +92,11 @@ unsafe impl PacketEncode for S2CPlayAddCharacterPacket {
 }
 
 impl From<S2CPlayAddCharacterPacket> for S2CPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayAddCharacterPacket) -> Self { Self::Play(value.into()) }
 }
 
 impl From<S2CPlayAddCharacterPacket> for S2CPlayPackets<'_> {
-    #[inline(always)]
+    #[inline]
     fn from(value : S2CPlayAddCharacterPacket) -> Self { Self::AddCharacter(value) }
 }
