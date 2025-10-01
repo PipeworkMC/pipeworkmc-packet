@@ -84,7 +84,7 @@ impl PacketMeta for S2CPlayLoginPacket<'_> {
 unsafe impl PacketEncode for S2CPlayLoginPacket<'_> {
 
     fn encode_len(&self) -> usize {
-        self.eid.as_u32().encode_len()
+        self.eid.0.encode_len()
         + self.hardcore.encode_len()
         + self.all_dim_ids.encode_len()
         + VarInt::<u32>(self.max_players).encode_len()
@@ -107,7 +107,7 @@ unsafe impl PacketEncode for S2CPlayLoginPacket<'_> {
     }
 
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
-        self.eid.as_u32().encode(buf);
+        self.eid.0.encode(buf);
         self.hardcore.encode(buf);
         self.all_dim_ids.encode(buf);
         VarInt::<u32>(self.max_players).encode(buf);

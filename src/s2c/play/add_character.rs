@@ -58,7 +58,7 @@ impl PacketMeta for S2CPlayAddCharacterPacket {
 unsafe impl PacketEncode for S2CPlayAddCharacterPacket {
 
     fn encode_len(&self) -> usize {
-        VarInt::<u32>(self.eid.as_u32()).encode_len()
+        VarInt::<u32>(self.eid.0).encode_len()
         + self.uuid.encode_len()
         + VarInt::<u32>(self.ty.protocol_id()).encode_len()
         + self.pos.x.encode_len()
@@ -74,7 +74,7 @@ unsafe impl PacketEncode for S2CPlayAddCharacterPacket {
     }
 
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
-        VarInt::<u32>(self.eid.as_u32()).encode(buf);
+        VarInt::<u32>(self.eid.0).encode(buf);
         self.uuid.encode(buf);
         VarInt::<u32>(self.ty.protocol_id()).encode(buf);
         self.pos.x.encode(buf);

@@ -40,13 +40,13 @@ unsafe impl PacketEncode for S2CPlayRemoveCharactersPacket<'_> {
 
     fn encode_len(&self) -> usize {
         let len = VarInt::<u32>(self.eids.len() as u32).encode_len();
-        len + self.eids.iter().map(|eid| VarInt::<u32>(eid.as_u32()).encode_len()).sum::<usize>()
+        len + self.eids.iter().map(|eid| VarInt::<u32>(eid.0).encode_len()).sum::<usize>()
     }
 
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
         VarInt::<u32>(self.eids.len() as u32).encode(buf);
         for eid in &*self.eids {
-            VarInt::<u32>(eid.as_u32()).encode(buf);
+            VarInt::<u32>(eid.0).encode(buf);
         }
     } }
 

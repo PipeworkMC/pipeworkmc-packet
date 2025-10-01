@@ -17,6 +17,7 @@ use pipeworkmc_codec::{
     }
 };
 use pipeworkmc_data::{
+    bounded_string::BoundedString,
     text::{
         Text,
         TextComponent,
@@ -130,6 +131,14 @@ pub struct StatusPlayer {
     pub uuid : Uuid,
     /// Name of the player.
     pub name : String
+}
+
+/// The name of a player in the server list player sample.
+pub enum StatusPlayerName {
+    /// String.
+    String(String),
+    /// BoundedString.
+    BoundedString(BoundedString<16>)
 }
 
 
