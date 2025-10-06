@@ -28,7 +28,7 @@ pub struct C2SConfigClientInfoPacket {
 impl PacketMeta for C2SConfigClientInfoPacket {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x00; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("client_information");
 }
 
 impl PacketDecode for C2SConfigClientInfoPacket {

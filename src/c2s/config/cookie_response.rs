@@ -31,7 +31,7 @@ pub struct C2SConfigCookieResponsePacket {
 impl PacketMeta for C2SConfigCookieResponsePacket {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x01; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("cookie_response");
 }
 
 impl PacketDecode for C2SConfigCookieResponsePacket {

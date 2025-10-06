@@ -21,7 +21,7 @@ pub struct C2SStatusRequestPacket;
 impl PacketMeta for C2SStatusRequestPacket {
     const STATE  : PacketState = PacketState::Status;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x00; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("status_request");
 }
 
 impl PacketDecode for C2SStatusRequestPacket {

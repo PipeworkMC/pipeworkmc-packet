@@ -111,7 +111,7 @@ impl S2CPlayGameEventPacket {
 impl PacketMeta for S2CPlayGameEventPacket {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x22; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("game_event");
 }
 
 unsafe impl PacketEncode for S2CPlayGameEventPacket {

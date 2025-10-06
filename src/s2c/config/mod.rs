@@ -33,3 +33,6 @@ super::packet_group!(
         "known_packs"    KnownPacks    => known_packs    ::S2CConfigKnownPacksPacket<'l>
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/s2c_config.rs");

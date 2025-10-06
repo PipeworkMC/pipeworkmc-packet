@@ -21,7 +21,7 @@ pub struct C2SConfigFinishAcknowledgedPacket;
 impl PacketMeta for C2SConfigFinishAcknowledgedPacket {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x03; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("finish_configuration");
 }
 
 impl PacketDecode for C2SConfigFinishAcknowledgedPacket {

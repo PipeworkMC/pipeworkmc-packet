@@ -29,7 +29,7 @@ pub struct S2CLoginDisconnectPacket {
 impl PacketMeta for S2CLoginDisconnectPacket {
     const STATE  : PacketState = PacketState::Login;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x00; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("login_disconnect");
     const KICK   : bool        = true;
 }
 

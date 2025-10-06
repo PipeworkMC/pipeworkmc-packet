@@ -21,7 +21,7 @@ pub struct C2SPlayTickEndPacket;
 impl PacketMeta for C2SPlayTickEndPacket {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x0C; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("client_tick_end");
 }
 
 impl PacketDecode for C2SPlayTickEndPacket {

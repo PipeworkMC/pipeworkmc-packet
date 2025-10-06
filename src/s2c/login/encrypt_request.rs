@@ -42,7 +42,7 @@ pub struct S2CLoginEncryptRequestPacket<'l> {
 impl PacketMeta for S2CLoginEncryptRequestPacket<'_> {
     const STATE  : PacketState = PacketState::Login;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x01; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("hello");
 }
 
 unsafe impl PacketEncode for S2CLoginEncryptRequestPacket<'_> {

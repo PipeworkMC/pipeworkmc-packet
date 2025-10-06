@@ -39,7 +39,7 @@ pub struct S2CConfigRegistryDataPacket<'l> {
 impl PacketMeta for S2CConfigRegistryDataPacket<'_> {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x07; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("registry_data");
 }
 
 unsafe impl PacketEncode for S2CConfigRegistryDataPacket<'_> {

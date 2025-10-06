@@ -30,7 +30,7 @@ pub struct S2CLoginFinishPacket {
 impl PacketMeta for S2CLoginFinishPacket {
     const STATE  : PacketState = PacketState::Login;
     const BOUND  : PacketBound = PacketBound::S2C;
-    const PREFIX : u8          = 0x02; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("login_finished");
 }
 
 unsafe impl PacketEncode for S2CLoginFinishPacket {

@@ -31,7 +31,7 @@ pub struct S2CConfigKnownPacksPacket<'l> {
 impl PacketMeta for S2CConfigKnownPacksPacket<'_> {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x0E; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("select_known_packs");
 }
 
 unsafe impl PacketEncode for S2CConfigKnownPacksPacket<'_> {

@@ -148,3 +148,6 @@ super::packet_group!(
         "remove_characters" RemoveCharacters => remove_characters ::S2CPlayRemoveCharactersPacket<'l>
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/s2c_play.rs");

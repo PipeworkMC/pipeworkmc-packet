@@ -28,7 +28,7 @@ pub struct C2SLoginEncryptResponsePacket {
 impl PacketMeta for C2SLoginEncryptResponsePacket {
     const STATE  : PacketState = PacketState::Login;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x01; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("key");
 }
 
 impl PacketDecode for C2SLoginEncryptResponsePacket {

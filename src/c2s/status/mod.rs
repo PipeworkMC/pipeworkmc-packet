@@ -13,3 +13,6 @@ super::packet_group!(
         "ping"    Ping    => ping    ::C2SStatusPingPacket
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/c2s_status.rs");

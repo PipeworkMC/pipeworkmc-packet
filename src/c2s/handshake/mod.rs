@@ -11,3 +11,6 @@ super::packet_group!(
         "intention" Intention => intention::C2SHandshakeIntentionPacket
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/c2s_handshake.rs");

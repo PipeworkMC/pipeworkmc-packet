@@ -28,7 +28,7 @@ pub struct C2SConfigCustomPayloadPacket {
 impl PacketMeta for C2SConfigCustomPayloadPacket {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x02; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("custom_payload");
 }
 
 impl PacketDecode for C2SConfigCustomPayloadPacket {

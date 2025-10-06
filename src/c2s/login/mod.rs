@@ -19,3 +19,6 @@ super::packet_group!(
         "cookie response"       CookieResponse      => cookie_response       ::C2SLoginCookieResponsePacket
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/c2s_login.rs");

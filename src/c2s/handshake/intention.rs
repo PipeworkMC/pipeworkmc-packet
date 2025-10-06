@@ -41,7 +41,7 @@ pub struct C2SHandshakeIntentionPacket {
 impl PacketMeta for C2SHandshakeIntentionPacket {
     const STATE  : PacketState = PacketState::Handshake;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x00; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("intention");
 }
 
 impl PacketDecode for C2SHandshakeIntentionPacket {

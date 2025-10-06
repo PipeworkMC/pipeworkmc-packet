@@ -79,3 +79,6 @@ super::packet_group!(
         "loaded"          Loaded         => loaded          ::C2SPlayLoadedPacket
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/c2s_play.rs");

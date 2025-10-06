@@ -78,7 +78,7 @@ pub struct S2CPlayLoginPacket<'l> {
 impl PacketMeta for S2CPlayLoginPacket<'_> {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x2B; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("login");
 }
 
 unsafe impl PacketEncode for S2CPlayLoginPacket<'_> {

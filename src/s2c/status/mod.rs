@@ -12,3 +12,6 @@ super::packet_group!(
         "pong"     Pong     => pong     ::S2CStatusPongPacket
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/s2c_status.rs");

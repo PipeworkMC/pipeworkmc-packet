@@ -18,3 +18,6 @@ super::packet_group!(
         "compression"     Compression    => compression     ::S2CLoginCompressionPacket
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/s2c_login.rs");

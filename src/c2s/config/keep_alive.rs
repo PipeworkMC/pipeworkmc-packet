@@ -25,7 +25,7 @@ pub struct C2SConfigKeepAlivePacket {
 impl PacketMeta for C2SConfigKeepAlivePacket {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x04; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("keep_alive");
 }
 
 impl PacketDecode for C2SConfigKeepAlivePacket {

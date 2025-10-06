@@ -31,7 +31,7 @@ pub struct C2SPlayCookieResponsePacket {
 impl PacketMeta for C2SPlayCookieResponsePacket {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x01; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("cookie_response");
 }
 
 impl PacketDecode for C2SPlayCookieResponsePacket {

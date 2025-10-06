@@ -25,7 +25,7 @@ pub struct C2SPlayKeepAlivePacket {
 impl PacketMeta for C2SPlayKeepAlivePacket {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x1B; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("keep_alive");
 }
 
 impl PacketDecode for C2SPlayKeepAlivePacket {

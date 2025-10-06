@@ -35,7 +35,7 @@ pub struct C2SLoginStartPacket {
 impl PacketMeta for C2SLoginStartPacket {
     const STATE  : PacketState = PacketState::Login;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x00; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("hello");
 }
 
 impl PacketDecode for C2SLoginStartPacket {

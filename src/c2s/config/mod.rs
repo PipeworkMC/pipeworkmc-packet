@@ -24,3 +24,6 @@ super::packet_group!(
         "known packs"         KnownPacks         => known_packs         ::C2SConfigKnownPacksPacket
     }
 );
+
+
+include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/c2s_config.rs");

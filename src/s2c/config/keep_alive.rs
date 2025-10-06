@@ -28,7 +28,7 @@ pub struct S2CConfigKeepAlivePacket {
 impl PacketMeta for S2CConfigKeepAlivePacket {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x04; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("keep_alive");
 }
 
 unsafe impl PacketEncode for S2CConfigKeepAlivePacket {

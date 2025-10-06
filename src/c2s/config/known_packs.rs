@@ -25,7 +25,7 @@ pub struct C2SConfigKnownPacksPacket {
 impl PacketMeta for C2SConfigKnownPacksPacket {
     const STATE  : PacketState = PacketState::Config;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x07; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("select_known_packs");
 }
 
 impl PacketDecode for C2SConfigKnownPacksPacket {

@@ -43,7 +43,7 @@ pub struct S2CStatusResponsePacket<'l> {
 impl PacketMeta for S2CStatusResponsePacket<'_> {
     const STATE  : PacketState = PacketState::Status;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x00; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("status_response");
 }
 
 unsafe impl PacketEncode for S2CStatusResponsePacket<'_> {

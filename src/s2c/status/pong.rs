@@ -28,7 +28,7 @@ pub struct S2CStatusPongPacket {
 impl PacketMeta for S2CStatusPongPacket {
     const STATE  : PacketState = PacketState::Status;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x01; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("pong_response");
 }
 
 unsafe impl PacketEncode for S2CStatusPongPacket {

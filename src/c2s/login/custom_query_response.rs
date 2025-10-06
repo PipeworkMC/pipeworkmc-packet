@@ -32,7 +32,7 @@ pub struct C2SLoginCustomQueryResponsePacket {
 impl PacketMeta for C2SLoginCustomQueryResponsePacket {
     const STATE  : PacketState = PacketState::Login;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x02; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("custom_query_answer");
 }
 
 impl PacketDecode for C2SLoginCustomQueryResponsePacket {

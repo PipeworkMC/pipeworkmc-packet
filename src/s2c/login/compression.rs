@@ -29,7 +29,7 @@ pub struct S2CLoginCompressionPacket {
 impl PacketMeta for S2CLoginCompressionPacket {
     const STATE  : PacketState = PacketState::Login;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x03; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("login_compression");
 }
 
 unsafe impl PacketEncode for S2CLoginCompressionPacket {

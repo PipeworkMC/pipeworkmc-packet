@@ -33,7 +33,7 @@ pub struct S2CPlayRemoveCharactersPacket<'l> {
 impl PacketMeta for S2CPlayRemoveCharactersPacket<'_> {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = 0x46; // TODO: Check against current datagen.
+    const PREFIX : u8          = super::packet_id!("remove_entities");
 }
 
 unsafe impl PacketEncode for S2CPlayRemoveCharactersPacket<'_> {
