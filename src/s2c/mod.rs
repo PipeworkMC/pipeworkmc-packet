@@ -8,7 +8,7 @@ use pipeworkmc_codec::{
     },
     meta::{
         PacketMeta,
-        PacketState
+        PacketMetadata
     }
 };
 
@@ -35,11 +35,11 @@ pub enum S2CPackets<'l> {
 impl S2CPackets<'_> {
 
     /// Returns metadata about this packet.
-    pub fn meta(&self) -> (PacketState, u8, bool,) { match (self) { // TODO: Return a proper structure.
-        Self::Status (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Status, prefix, kick,) },
-        Self::Login  (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Login,  prefix, kick,) },
-        Self::Config (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Config, prefix, kick,) },
-        Self::Play   (packet) => { let (prefix, kick,) = packet.meta(); (PacketState::Play,   prefix, kick,) }
+    pub fn meta(&self) -> PacketMetadata { match (self) {
+        Self::Status (packet) => packet.meta(),
+        Self::Login  (packet) => packet.meta(),
+        Self::Config (packet) => packet.meta(),
+        Self::Play   (packet) => packet.meta()
     } }
 
 }
@@ -77,8 +77,8 @@ macro packet_group(
 
     impl$(<$lt>)? $group$(<$lt>)? {
         /// Returns metadata about this packet.
-        pub fn $meta(&self) -> (u8, bool,) { match (self) { $( // TODO: Return a proper structure.
-            Self::$variant (_) => (<$ty as PacketMeta>::PREFIX, <$ty as PacketMeta>::KICK,),
+        pub fn $meta(&self) -> PacketMetadata { match (self) { $(
+            Self::$variant (_) => <$ty as PacketMeta>::metadata(),
         )* } }
     }
 
