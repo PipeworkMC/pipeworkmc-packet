@@ -61,7 +61,7 @@ pub mod pong;
 // TODO: program_structure_block
 // TODO: progrma_test_block
 // TODO: update_sign
-// TODO: swing_arm
+pub mod swing_arm;
 // TODO: teleport_to_entity
 // TODO: test_instance_block_action
 // TODO: use_item_on
@@ -95,7 +95,8 @@ super::packet_group!(
         "set player rot"        SetPlayerRot        => set_player_rot         ::C2SPlaySetPlayerRotPacket,
         "set player move flags" SetPlayerMoveFlags  => set_player_move_flags  ::C2SPlaySetPlayerMoveFlagsPacket,
         "loaded"                Loaded              => loaded                 ::C2SPlayLoadedPacket,
-        "pong"                  Pong                => pong                   ::C2SPlayPongPacket
+        "pong"                  Pong                => pong                   ::C2SPlayPongPacket,
+        "swing arm"             SwingArm            => swing_arm              ::C2SPlaySwingArmPacket
     }
 );
 
