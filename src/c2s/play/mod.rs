@@ -14,7 +14,7 @@ pub mod chat_command;
 // TODO: chunk_batch_received
 // TODO: client_status
 pub mod tick_end;
-// TODO: client_info
+pub mod client_info;
 // TODO: command_suggestions_request
 // TODO: acknowledge_config
 // TODO: click_container_button
@@ -80,6 +80,7 @@ super::packet_group!(
         "acknowledge chat"       AcknowledgeChat     => acknowledge_chat       ::C2SPlayAcknowledgeChatPacket,
         "chat command"           ChatCommand         => chat_command           ::C2SPlayChatCommandPacket,
         "tick end"               TickEnd             => tick_end               ::C2SPlayTickEndPacket,
+        "client info"            ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
         "cookie response"        CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
         "custom payload"         CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
         "keep alive"             KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
