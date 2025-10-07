@@ -22,7 +22,7 @@ use pipeworkmc_codec::{
 #[derive(Debug)]
 pub struct C2SPlayAcknowledgeTeleportPacket {
     /// ID of the teleport. The server previously sent the value to use.
-    pub id : VarInt<u32>
+    pub id : u32
 }
 
 impl PacketMeta for C2SPlayAcknowledgeTeleportPacket {
@@ -39,6 +39,6 @@ impl PacketDecode for C2SPlayAcknowledgeTeleportPacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        id : <_>::decode(iter)?
+        id : <VarInt<u32>>::decode(iter)?.0
     }) }
 }

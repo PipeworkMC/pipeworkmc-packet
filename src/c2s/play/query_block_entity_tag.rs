@@ -25,7 +25,7 @@ use core::fmt::{ self, Display, Formatter };
 #[derive(Debug)]
 pub struct C2SPlayQueryBlockEntityTagPacket {
     /// ID of the teleport. The server previously sent the value to use.
-    pub id    : VarInt<u32>,
+    pub id    : u32,
     /// Location of the block to check.
     pub block : BlockPos
 }
@@ -44,7 +44,7 @@ impl PacketDecode for C2SPlayQueryBlockEntityTagPacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        id    : <_>::decode(iter).map_err(C2SPlayQueryBlockEntityTagDecodeError::Id)?,
+        id    : <VarInt<u32>>::decode(iter).map_err(C2SPlayQueryBlockEntityTagDecodeError::Id)?.0,
         block : <_>::decode(iter).map_err(C2SPlayQueryBlockEntityTagDecodeError::Location)?
     }) }
 }
