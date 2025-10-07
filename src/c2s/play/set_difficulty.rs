@@ -1,4 +1,4 @@
-//! Serverbound play keep alive packet.
+//! Serverbound play set difficulty packet.
 
 
 use pipeworkmc_codec::{

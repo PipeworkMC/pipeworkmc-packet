@@ -5,6 +5,7 @@ pub mod acknowledge_teleport;
 pub mod query_block_entity_tag;
 // TODO: bundle_item_selected
 pub mod set_difficulty;
+pub mod set_game_mode;
 // TODO: acknowledge_message
 // TODO: chat_command
 // TODO: signed_chat_command
@@ -75,6 +76,7 @@ super::packet_group!(
         "acknowledge teleport"   AcknowledgeTeleport => acknowledge_teleport   ::C2SPlayAcknowledgeTeleportPacket,
         "query block entity tag" QueryBlockEntityTag => query_block_entity_tag ::C2SPlayQueryBlockEntityTagPacket,
         "set difficulty"         SetDifficulty       => set_difficulty         ::C2SPlaySetDifficultyPacket,
+        "set game mode"          SetGameMode         => set_game_mode          ::C2SPlaySetGameModePacket,
         "tick end"               TickEnd             => tick_end               ::C2SPlayTickEndPacket,
         "cookie response"        CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
         "custom payload"         CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
