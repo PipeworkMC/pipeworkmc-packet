@@ -47,13 +47,13 @@ pub mod set_player_move_flags;
 pub mod loaded;
 pub mod pong;
 // TODO: change_recipe_book_settings
-// TODO: set_seen_Recipe
+// TODO: set_seen_recipe
 // TODO: rename_item
 // TODO: resource_pack_response
 // TODO: seen_advancements
 // TODO: select_trade
 // TODO: set_beacon_effect
-// TODO: set_hotbar
+pub mod select_hotbar;
 // TODO: program_command_block
 // TODO: program_command_block_minecart
 // TODO: set_creative_mode_slot
@@ -96,6 +96,7 @@ super::packet_group!(
         "set player move flags" SetPlayerMoveFlags  => set_player_move_flags  ::C2SPlaySetPlayerMoveFlagsPacket,
         "loaded"                Loaded              => loaded                 ::C2SPlayLoadedPacket,
         "pong"                  Pong                => pong                   ::C2SPlayPongPacket,
+        "select hotbar"         SelectHotbar        => select_hotbar          ::S2CPlaySelectHotbarPacket,
         "swing arm"             SwingArm            => swing_arm              ::C2SPlaySwingArmPacket
     }
 );
