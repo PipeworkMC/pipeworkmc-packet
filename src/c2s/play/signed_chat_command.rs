@@ -1,4 +1,4 @@
-//! Serverbound play chat message packet.
+//! Serverbound play signed chat command packet.
 
 
 use pipeworkmc_codec::{
@@ -11,9 +11,9 @@ use pipeworkmc_codec::{
         PacketMeta,
         PacketState,
         PacketBound
-    },
-    varint::VarInt
+    }
 };
+use pipeworkmc_data::varint::VarInt;
 use core::fmt::{ self, Display, Formatter };
 
 

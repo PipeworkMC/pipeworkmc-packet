@@ -11,9 +11,9 @@ use pipeworkmc_codec::{
         PacketMeta,
         PacketState,
         PacketBound
-    },
-    varint::VarInt
+    }
 };
+use pipeworkmc_data::varint::VarInt;
 use core::fmt::{ self, Display, Formatter };
 
 
