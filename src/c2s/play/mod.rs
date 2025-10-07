@@ -45,7 +45,7 @@ pub mod keep_alive;
 // TODO: player_command
 // TODO: player_input
 pub mod loaded;
-// TODO: pong
+pub mod pong;
 // TODO: change_recipe_book_settings
 // TODO: set_seen_Recipe
 // TODO: rename_item
@@ -83,7 +83,8 @@ super::packet_group!(
         "cookie response"        CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
         "custom payload"         CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
         "keep alive"             KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
-        "loaded"                 Loaded              => loaded                 ::C2SPlayLoadedPacket
+        "loaded"                 Loaded              => loaded                 ::C2SPlayLoadedPacket,
+        "pong"                   Pong                => pong                   ::C2SPlayPongPacket
     }
 );
 
