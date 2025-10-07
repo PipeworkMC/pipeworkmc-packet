@@ -31,7 +31,7 @@ pub mod query_character_tag;
 pub mod keep_alive;
 // TODO: lock_difficulty
 pub mod set_player_pos;
-// TODO: set_player_pos_and_rot
+pub mod set_player_pos_rot;
 // TODO: set_player_player_rot
 // TODO: set_player_move_flags
 // TODO: move_vehicle
@@ -86,6 +86,7 @@ super::packet_group!(
         "query character tag"  QueryCharacterTag   => query_character_tag    ::C2SPlayQueryCharacterTagPacket,
         "keep alive"           KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
         "set player pos"       SetPlayerPos        => set_player_pos         ::C2SPlaySetPlayerPosPacket,
+        "set player pos rot"   SetPlayerPosRot     => set_player_pos_rot     ::C2SPlaySetPlayerPosRotPacket,
         "loaded"               Loaded              => loaded                 ::C2SPlayLoadedPacket,
         "pong"                 Pong                => pong                   ::C2SPlayPongPacket
     }
