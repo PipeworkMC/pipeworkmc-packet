@@ -21,8 +21,8 @@ use pipeworkmc_codec::{
 /// Lets the server know that a previously received teleport has been received.
 #[derive(Debug)]
 pub struct C2SPlayAcknowledgeTeleportPacket {
-    /// ID of the teleport. The server previously sent the value to use.
-    pub id : u32
+    /// Transaction ID of the teleport. The server previously sent the value to use.
+    pub transaction : u32
 }
 
 impl PacketMeta for C2SPlayAcknowledgeTeleportPacket {
@@ -39,6 +39,6 @@ impl PacketDecode for C2SPlayAcknowledgeTeleportPacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        id : <VarInt<u32>>::decode(iter)?.0
+        transaction : <VarInt<u32>>::decode(iter)?.0
     }) }
 }

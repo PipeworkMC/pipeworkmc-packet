@@ -21,8 +21,8 @@ use pipeworkmc_codec::{
 /// Lets the client know that the connection is still alive.
 #[derive(Debug)]
 pub struct S2CPlayKeepAlivePacket {
-    /// ID of the keepalive. The client will respond with the same ID.
-    pub id : u64
+    /// Transaction ID of the keepalive. The client will respond with the same ID.
+    pub transaction : u64
 }
 
 impl PacketMeta for S2CPlayKeepAlivePacket {
@@ -35,12 +35,12 @@ unsafe impl PacketEncode for S2CPlayKeepAlivePacket {
 
     #[inline]
     fn encode_len(&self) -> usize {
-        self.id.encode_len()
+        self.transaction.encode_len()
     }
 
     #[inline]
     unsafe fn encode(&self, buf : &mut EncodeBuf) { unsafe {
-        self.id.encode(buf);
+        self.transaction.encode(buf);
     } }
 
 }

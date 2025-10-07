@@ -23,10 +23,10 @@ use core::fmt::{ self, Display, Formatter };
 /// The server previously made a custom query.
 #[derive(Debug)]
 pub struct C2SLoginCustomQueryResponsePacket {
-    /// ID of the request.
-    pub id   : u32,
+    /// Transaction ID of the request.
+    pub transaction : u32,
     /// Response data, if it exists.
-    pub data : Option<Vec<u8>>
+    pub data        : Option<Vec<u8>>
 }
 
 impl PacketMeta for C2SLoginCustomQueryResponsePacket {
@@ -43,8 +43,8 @@ impl PacketDecode for C2SLoginCustomQueryResponsePacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        id   : <VarInt<u32>>::decode(iter).map_err(C2SLoginCustomQueryResponseDecodeError::Id)?.0,
-        data : bool::decode(iter).map_err(C2SLoginCustomQueryResponseDecodeError::DataVariant)?
+        transaction : <VarInt<u32>>::decode(iter).map_err(C2SLoginCustomQueryResponseDecodeError::Transaction)?.0,
+        data        : bool::decode(iter).map_err(C2SLoginCustomQueryResponseDecodeError::DataVariant)?
             .then(|| iter.collect::<Vec<_>>())
     }) }
 }
@@ -53,14 +53,14 @@ impl PacketDecode for C2SLoginCustomQueryResponsePacket {
 /// Returned by packet decoders when a `C2SLoginCookieResponsePacket` was not decoded successfully.
 #[derive(Debug)]
 pub enum C2SLoginCustomQueryResponseDecodeError {
-    /// The request ID failed to decode.
-    Id(VarIntDecodeError),
+    /// The request transaction ID failed to decode.
+    Transaction(VarIntDecodeError),
     /// The response data option variant failed to decode.
     DataVariant(IncompleteDecodeError)
 }
 impl Display for C2SLoginCustomQueryResponseDecodeError {
     fn fmt(&self, f : &mut Formatter<'_>) -> fmt::Result { match (self) {
-        Self::Id(err)   => write!(f, "id {err}"),
+        Self::Transaction(err) => write!(f, "transaction {err}"),
         Self::DataVariant(err) => write!(f, "data {err}")
     } }
 }

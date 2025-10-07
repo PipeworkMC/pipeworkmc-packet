@@ -18,8 +18,8 @@ use pipeworkmc_codec::{
 /// Response to a previous ping.
 #[derive(Debug)]
 pub struct C2SConfigPongPacket {
-    /// ID of the ping. The server previously sent the value to use.
-    pub id : u32
+    /// Transaction ID of the ping. The server previously sent the value to use.
+    pub transaction : u32
 }
 
 impl PacketMeta for C2SConfigPongPacket {
@@ -36,6 +36,6 @@ impl PacketDecode for C2SConfigPongPacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        id : <_>::decode(iter)?
+        transaction : <_>::decode(iter)?
     }) }
 }

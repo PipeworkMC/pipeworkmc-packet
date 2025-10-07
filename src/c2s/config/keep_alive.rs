@@ -18,8 +18,8 @@ use pipeworkmc_codec::{
 /// Lets the server know that the connection is still alive.
 #[derive(Debug)]
 pub struct C2SConfigKeepAlivePacket {
-    /// ID of the keepalive. The server previously sent the value to use.
-    pub id : u64
+    /// Transaction ID of the keepalive. The server previously sent the value to use.
+    pub transaction : u64
 }
 
 impl PacketMeta for C2SConfigKeepAlivePacket {
@@ -36,6 +36,6 @@ impl PacketDecode for C2SConfigKeepAlivePacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        id : <_>::decode(iter)?
+        transaction : <_>::decode(iter)?
     }) }
 }

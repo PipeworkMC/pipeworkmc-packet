@@ -24,10 +24,10 @@ use core::fmt::{ self, Display, Formatter };
 /// Lets the server know that a previously received teleport has been received.
 #[derive(Debug)]
 pub struct C2SPlayQueryBlockEntityTagPacket {
-    /// ID of the teleport. The server previously sent the value to use.
-    pub id    : u32,
+    /// Transaction ID of the teleport. The server previously sent the value to use.
+    pub transaction : u32,
     /// Location of the block to check.
-    pub block : BlockPos
+    pub block       : BlockPos
 }
 
 impl PacketMeta for C2SPlayQueryBlockEntityTagPacket {
@@ -44,8 +44,8 @@ impl PacketDecode for C2SPlayQueryBlockEntityTagPacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        id    : <VarInt<u32>>::decode(iter).map_err(C2SPlayQueryBlockEntityTagDecodeError::Id)?.0,
-        block : <_>::decode(iter).map_err(C2SPlayQueryBlockEntityTagDecodeError::Location)?
+        transaction : <VarInt<u32>>::decode(iter).map_err(C2SPlayQueryBlockEntityTagDecodeError::Transaction)?.0,
+        block       : <_>::decode(iter).map_err(C2SPlayQueryBlockEntityTagDecodeError::Location)?
     }) }
 }
 
@@ -53,14 +53,14 @@ impl PacketDecode for C2SPlayQueryBlockEntityTagPacket {
 /// Returned by packet decoders when a `C2SPlayQueryBlockEntityTagPacket` was not decoded successfully.
 #[derive(Debug)]
 pub enum C2SPlayQueryBlockEntityTagDecodeError {
-    /// The query id failed to decode.
-    Id(VarIntDecodeError),
+    /// The transaction ID failed to decode.
+    Transaction(VarIntDecodeError),
     /// The block location failed to decode.
     Location(IncompleteDecodeError)
 }
 impl Display for C2SPlayQueryBlockEntityTagDecodeError {
     fn fmt(&self, f : &mut Formatter<'_>) -> fmt::Result { match (self) {
-        Self::Id(err)       => write!(f, "id {err}"),
-        Self::Location(err) => write!(f, "location {err}")
+        Self::Transaction(err) => write!(f, "transaction {err}"),
+        Self::Location(err)    => write!(f, "location {err}")
     } }
 }
