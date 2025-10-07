@@ -25,7 +25,7 @@ pub mod cookie_response;
 pub mod custom_payload;
 // TODO: debug_sample_subscription
 // TODO: edit_book
-// TODO: query_entity_tag
+pub mod query_character_tag;
 // TODO: interact
 // TODO: jigsaw_generate
 pub mod keep_alive;
@@ -83,6 +83,7 @@ super::packet_group!(
         "client info"            ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
         "cookie response"        CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
         "custom payload"         CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
+        "query character tag"    QueryCharacterTag   => query_character_tag    ::C2SPlayQueryCharacterTagPacket,
         "keep alive"             KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
         "loaded"                 Loaded              => loaded                 ::C2SPlayLoadedPacket,
         "pong"                   Pong                => pong                   ::C2SPlayPongPacket
