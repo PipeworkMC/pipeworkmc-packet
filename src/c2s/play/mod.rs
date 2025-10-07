@@ -2,7 +2,7 @@
 
 
 pub mod acknowledge_teleport;
-pub mod query_block_entity_tag;
+pub mod query_block_tag;
 // TODO: bundle_item_selected
 pub mod set_difficulty;
 pub mod set_game_mode;
@@ -73,20 +73,20 @@ super::packet_group!(
     "play" C2SPlayPackets,
     C2SPlayDecodeError,
     {
-        "acknowledge teleport"   AcknowledgeTeleport => acknowledge_teleport   ::C2SPlayAcknowledgeTeleportPacket,
-        "query block entity tag" QueryBlockEntityTag => query_block_entity_tag ::C2SPlayQueryBlockEntityTagPacket,
-        "set difficulty"         SetDifficulty       => set_difficulty         ::C2SPlaySetDifficultyPacket,
-        "set game mode"          SetGameMode         => set_game_mode          ::C2SPlaySetGameModePacket,
-        "acknowledge chat"       AcknowledgeChat     => acknowledge_chat       ::C2SPlayAcknowledgeChatPacket,
-        "chat command"           ChatCommand         => chat_command           ::C2SPlayChatCommandPacket,
-        "tick end"               TickEnd             => tick_end               ::C2SPlayTickEndPacket,
-        "client info"            ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
-        "cookie response"        CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
-        "custom payload"         CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
-        "query character tag"    QueryCharacterTag   => query_character_tag    ::C2SPlayQueryCharacterTagPacket,
-        "keep alive"             KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
-        "loaded"                 Loaded              => loaded                 ::C2SPlayLoadedPacket,
-        "pong"                   Pong                => pong                   ::C2SPlayPongPacket
+        "acknowledge teleport" AcknowledgeTeleport => acknowledge_teleport   ::C2SPlayAcknowledgeTeleportPacket,
+        "query block tag"      QueryBlockTag       => query_block_tag        ::C2SPlayQueryBlockTagPacket,
+        "set difficulty"       SetDifficulty       => set_difficulty         ::C2SPlaySetDifficultyPacket,
+        "set game mode"        SetGameMode         => set_game_mode          ::C2SPlaySetGameModePacket,
+        "acknowledge chat"     AcknowledgeChat     => acknowledge_chat       ::C2SPlayAcknowledgeChatPacket,
+        "chat command"         ChatCommand         => chat_command           ::C2SPlayChatCommandPacket,
+        "tick end"             TickEnd             => tick_end               ::C2SPlayTickEndPacket,
+        "client info"          ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
+        "cookie response"      CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
+        "custom payload"       CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
+        "query character tag"  QueryCharacterTag   => query_character_tag    ::C2SPlayQueryCharacterTagPacket,
+        "keep alive"           KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
+        "loaded"               Loaded              => loaded                 ::C2SPlayLoadedPacket,
+        "pong"                 Pong                => pong                   ::C2SPlayPongPacket
     }
 );
 

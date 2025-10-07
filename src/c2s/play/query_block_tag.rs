@@ -23,20 +23,20 @@ use core::fmt::{ self, Display, Formatter };
 
 /// Requests the server for `F3+I` information about a block.
 #[derive(Debug)]
-pub struct C2SPlayQueryBlockEntityTagPacket {
+pub struct C2SPlayQueryBlockTagPacket {
     /// Transaction ID of the teleport. The server previously sent the value to use.
     pub transaction : u32,
     /// Location of the block to check.
     pub block       : BlockPos
 }
 
-impl PacketMeta for C2SPlayQueryBlockEntityTagPacket {
+impl PacketMeta for C2SPlayQueryBlockTagPacket {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
     const PREFIX : u8          = super::packet_id!("block_entity_tag_query");
 }
 
-impl PacketDecode for C2SPlayQueryBlockEntityTagPacket {
+impl PacketDecode for C2SPlayQueryBlockTagPacket {
     type Error = C2SPlayQueryBlockEntityTagDecodeError;
 
     #[inline]
