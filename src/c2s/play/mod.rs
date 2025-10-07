@@ -11,7 +11,7 @@ pub mod chat_command;
 pub mod signed_chat_command;
 pub mod chat_message;
 // TODO: player_session
-// TODO: chunk_batch_received
+pub mod chunk_batch_received;
 pub mod game_request;
 pub mod tick_end;
 pub mod client_info;
@@ -81,6 +81,7 @@ super::packet_group!(
         "chat command"          ChatCommand         => chat_command           ::C2SPlayChatCommandPacket,
         "signed chat command"   SignedChatCommand   => signed_chat_command    ::C2SPlaySignedChatCommandPacket,
         "chat message"          ChatMessage         => chat_message           ::C2SPlayChatMessagePacket,
+        "chunk batch received"  ChunkBatchReceived  => chunk_batch_received   ::C2SPlayChunkBatchReceivedPacket,
         "game request"          GameRequest         => game_request           ::C2SPlayGameRequestPacket,
         "tick end"              TickEnd             => tick_end               ::C2SPlayTickEndPacket,
         "client info"           ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
