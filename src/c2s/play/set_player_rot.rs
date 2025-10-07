@@ -1,4 +1,4 @@
-//! Serverbound play set player pos rot packet.
+//! Serverbound play set player rot packet.
 
 
 use pipeworkmc_codec::{
@@ -13,17 +13,12 @@ use pipeworkmc_codec::{
         PacketBound
     }
 };
-use pipeworkmc_data::character::{
-    CharacterPos,
-    CharacterMoveFlags
-};
+use pipeworkmc_data::character::CharacterMoveFlags;
 
 
-/// The player changed position and rotation.
+/// The player changed rotation.
 #[derive(Debug)]
-pub struct C2SPlaySetPlayerPosRotPacket {
-    /// Position to move to.
-    pub pos   : CharacterPos,
+pub struct C2SPlaySetPlayerRotPacket {
     /// Rotation yaw to rotate to.
     pub yaw   : f32,
     /// Rotation pitch to rotate to.
@@ -32,13 +27,13 @@ pub struct C2SPlaySetPlayerPosRotPacket {
     pub flags : CharacterMoveFlags
 }
 
-impl PacketMeta for C2SPlaySetPlayerPosRotPacket {
+impl PacketMeta for C2SPlaySetPlayerRotPacket {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = super::packet_id!("move_player_pos_rot");
+    const PREFIX : u8          = super::packet_id!("move_player_rot");
 }
 
-impl PacketDecode for C2SPlaySetPlayerPosRotPacket {
+impl PacketDecode for C2SPlaySetPlayerRotPacket {
     type Error = IncompleteDecodeError;
 
     #[inline]
@@ -46,11 +41,6 @@ impl PacketDecode for C2SPlaySetPlayerPosRotPacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        pos   : CharacterPos {
-            x : <_>::decode(iter)?,
-            y : <_>::decode(iter)?,
-            z : <_>::decode(iter)?
-        },
         yaw   : <_>::decode(iter)?,
         pitch : <_>::decode(iter)?,
         flags : <_>::decode(iter)?
