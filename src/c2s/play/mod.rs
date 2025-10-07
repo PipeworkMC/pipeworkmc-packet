@@ -7,7 +7,7 @@ pub mod query_block_entity_tag;
 pub mod set_difficulty;
 pub mod set_game_mode;
 pub mod acknowledge_chat;
-// TODO: chat_command
+pub mod chat_command;
 // TODO: signed_chat_command
 // TODO: chat_message
 // TODO: player_session
@@ -78,6 +78,7 @@ super::packet_group!(
         "set difficulty"         SetDifficulty       => set_difficulty         ::C2SPlaySetDifficultyPacket,
         "set game mode"          SetGameMode         => set_game_mode          ::C2SPlaySetGameModePacket,
         "acknowledge chat"       AcknowledgeChat     => acknowledge_chat       ::C2SPlayAcknowledgeChatPacket,
+        "chat command"           ChatCommand         => chat_command           ::C2SPlayChatCommandPacket,
         "tick end"               TickEnd             => tick_end               ::C2SPlayTickEndPacket,
         "cookie response"        CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
         "custom payload"         CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
