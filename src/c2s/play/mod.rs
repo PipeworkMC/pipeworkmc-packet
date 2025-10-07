@@ -1,7 +1,7 @@
 //! Serverbound play packets.
 
 
-// TODO: confirm_teleport
+pub mod acknowledge_teleport;
 // TODO: query_block_entity_tag
 // TODO: bundle_item_selected
 // TODO: change_difficulty
@@ -72,11 +72,12 @@ super::packet_group!(
     "play" C2SPlayPackets,
     C2SPlayDecodeError,
     {
-        "tick end"        TickEnd        => tick_end        ::C2SPlayTickEndPacket,
-        "cookie response" CookieResponse => cookie_response ::C2SPlayCookieResponsePacket,
-        "custom payload"  CustomPayload  => custom_payload  ::C2SPlayCustomPayloadPacket,
-        "keep alive"      KeepAlive      => keep_alive      ::C2SPlayKeepAlivePacket,
-        "loaded"          Loaded         => loaded          ::C2SPlayLoadedPacket
+        "acknowledge teleport" AcknowledgeTeleport => acknowledge_teleport ::C2SPlayAcknowledgeTeleportPacket,
+        "tick end"             TickEnd             => tick_end             ::C2SPlayTickEndPacket,
+        "cookie response"      CookieResponse      => cookie_response      ::C2SPlayCookieResponsePacket,
+        "custom payload"       CustomPayload       => custom_payload       ::C2SPlayCustomPayloadPacket,
+        "keep alive"           KeepAlive           => keep_alive           ::C2SPlayKeepAlivePacket,
+        "loaded"               Loaded              => loaded               ::C2SPlayLoadedPacket
     }
 );
 

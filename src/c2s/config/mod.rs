@@ -6,22 +6,25 @@ pub mod cookie_response;
 pub mod custom_payload;
 pub mod finish_acknowledged;
 pub mod keep_alive;
-// TODO: pong
-// TODO: resource_pack_response
+pub mod pong;
+pub mod resource_pack_status;
 pub mod known_packs;
-// TODO: custom_click_action
+// pub mod custom_click_action; // TODO
 
 
 super::packet_group!(
     "configuration" C2SConfigPackets,
     C2SConfigDecodeError,
     {
-        "client info"         ClientInfo         => client_info         ::C2SConfigClientInfoPacket,
-        "cookie response"     CookieResponse     => cookie_response     ::C2SConfigCookieResponsePacket,
-        "custom payload"      CustomPayload      => custom_payload      ::C2SConfigCustomPayloadPacket,
-        "finish acknowledged" FinishAcknowledged => finish_acknowledged ::C2SConfigFinishAcknowledgedPacket,
-        "keep alive"          KeepAlive          => keep_alive          ::C2SConfigKeepAlivePacket,
-        "known packs"         KnownPacks         => known_packs         ::C2SConfigKnownPacksPacket
+        "client info"          ClientInfo         => client_info          ::C2SConfigClientInfoPacket,
+        "cookie response"      CookieResponse     => cookie_response      ::C2SConfigCookieResponsePacket,
+        "custom payload"       CustomPayload      => custom_payload       ::C2SConfigCustomPayloadPacket,
+        "finish acknowledged"  FinishAcknowledged => finish_acknowledged  ::C2SConfigFinishAcknowledgedPacket,
+        "keep alive"           KeepAlive          => keep_alive           ::C2SConfigKeepAlivePacket,
+        "pong"                 Pong               => pong                 ::C2SConfigPongPacket,
+        "resource pack status" ResourcePackStatus => resource_pack_status ::C2SConfigResourcePackStatusPacket,
+        "known packs"          KnownPacks         => known_packs          ::C2SConfigKnownPacksPacket,
+        // "custom click action"  CustomClickAction  => custom_click_action  ::C2SConfigCustomClickActionPacket
     }
 );
 

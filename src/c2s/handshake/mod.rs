@@ -1,14 +1,14 @@
 //! Serverbound handshaking packets.
 
 
-pub mod intention;
+pub mod intent;
 
 
 super::packet_group!(
     "handshaking" C2SHandshakePackets,
     C2SHandshakeDecodeError,
     {
-        "intention" Intention => intention::C2SHandshakeIntentionPacket
+        "intent" Intent => intent::C2SHandshakeIntentPacket
     }
 );
 
