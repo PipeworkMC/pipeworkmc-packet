@@ -72,7 +72,7 @@ impl<'l> From<S2CStatusResponsePacket<'l>> for S2CStatusPackets<'l> {
 
 
 /// Server list information.
-#[derive(Ser)]
+#[derive(Ser, Debug)]
 pub struct Status<'l> {
     /// Server version.
     pub version               : StatusVersion<'l>,
@@ -103,7 +103,7 @@ fn add_png_b64_header<'l, S : Serer>(png_b64 : &Option<Cow<'l, str>>, ser : S) -
 }
 
 /// Server list version information.
-#[derive(Ser)]
+#[derive(Ser, Debug)]
 pub struct StatusVersion<'l> {
     /// Name of the version.
     pub name     : Cow<'l, str>,
@@ -112,7 +112,7 @@ pub struct StatusVersion<'l> {
 }
 
 /// Server list player information.
-#[derive(Ser)]
+#[derive(Ser, Debug)]
 pub struct StatusPlayers {
     /// Number of players currently online.
     #[serde(rename = "online")]
@@ -124,7 +124,7 @@ pub struct StatusPlayers {
 }
 
 /// An entry in the server list player sample.
-#[derive(Ser, Clone)]
+#[derive(Ser, Clone, Debug)]
 pub struct StatusPlayer {
     /// UUID of the player.
     #[serde(rename = "id")]
@@ -135,7 +135,7 @@ pub struct StatusPlayer {
 }
 
 /// The name of a player in the server list player sample.
-#[derive(Ser, Clone)]
+#[derive(Ser, Clone, Debug)]
 #[serde(untagged)]
 pub enum StatusPlayerName {
     /// BoundedString.
