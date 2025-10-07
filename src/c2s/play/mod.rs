@@ -2,7 +2,7 @@
 
 
 pub mod acknowledge_teleport;
-// TODO: query_block_entity_tag
+pub mod query_block_entity_tag;
 // TODO: bundle_item_selected
 // TODO: change_difficulty
 // TODO: acknowledge_message
@@ -72,12 +72,13 @@ super::packet_group!(
     "play" C2SPlayPackets,
     C2SPlayDecodeError,
     {
-        "acknowledge teleport" AcknowledgeTeleport => acknowledge_teleport ::C2SPlayAcknowledgeTeleportPacket,
-        "tick end"             TickEnd             => tick_end             ::C2SPlayTickEndPacket,
-        "cookie response"      CookieResponse      => cookie_response      ::C2SPlayCookieResponsePacket,
-        "custom payload"       CustomPayload       => custom_payload       ::C2SPlayCustomPayloadPacket,
-        "keep alive"           KeepAlive           => keep_alive           ::C2SPlayKeepAlivePacket,
-        "loaded"               Loaded              => loaded               ::C2SPlayLoadedPacket
+        "acknowledge teleport"   AcknowledgeTeleport => acknowledge_teleport   ::C2SPlayAcknowledgeTeleportPacket,
+        "query block entity tag" QueryBlockEntityTag => query_block_entity_tag ::C2SPlayQueryBlockEntityTagPacket,
+        "tick end"               TickEnd             => tick_end               ::C2SPlayTickEndPacket,
+        "cookie response"        CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
+        "custom payload"         CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
+        "keep alive"             KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
+        "loaded"                 Loaded              => loaded                 ::C2SPlayLoadedPacket
     }
 );
 
