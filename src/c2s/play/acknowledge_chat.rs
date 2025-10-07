@@ -1,4 +1,4 @@
-//! Serverbound play acknowledge teleport packet.
+//! Serverbound play acknowledge chat packet.
 
 
 use pipeworkmc_codec::{
@@ -18,20 +18,20 @@ use pipeworkmc_codec::{
 };
 
 
-/// Lets the server know that a previous teleport has been received.
+/// Lets the server know that some previous chat messages has been received.
 #[derive(Debug)]
-pub struct C2SPlayAcknowledgeTeleportPacket {
-    /// Transaction ID of the teleport. The server previously sent the value to use.
-    pub transaction : u32
+pub struct C2SPlayAcknowledgeChatPacket {
+    /// Number of messages that have been acknowledged.
+    pub count : u32
 }
 
-impl PacketMeta for C2SPlayAcknowledgeTeleportPacket {
+impl PacketMeta for C2SPlayAcknowledgeChatPacket {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = super::packet_id!("accept_teleportation");
+    const PREFIX : u8          = super::packet_id!("chat_ack");
 }
 
-impl PacketDecode for C2SPlayAcknowledgeTeleportPacket {
+impl PacketDecode for C2SPlayAcknowledgeChatPacket {
     type Error = VarIntDecodeError;
 
     #[inline]
@@ -39,6 +39,6 @@ impl PacketDecode for C2SPlayAcknowledgeTeleportPacket {
     where
         I : ExactSizeIterator<Item = u8>
     { Ok(Self {
-        transaction : <VarInt<u32>>::decode(iter)?.0
+        count : <VarInt<u32>>::decode(iter)?.0
     }) }
 }
