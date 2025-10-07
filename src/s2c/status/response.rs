@@ -130,15 +130,18 @@ pub struct StatusPlayer {
     #[serde(rename = "id")]
     pub uuid : Uuid,
     /// Name of the player.
-    pub name : String
+    #[serde(flatten)]
+    pub name : StatusPlayerName
 }
 
 /// The name of a player in the server list player sample.
+#[derive(Ser, Clone)]
+#[serde(untagged)]
 pub enum StatusPlayerName {
-    /// String.
-    String(String),
     /// BoundedString.
-    BoundedString(BoundedString<16>)
+    Bounded(BoundedString<16>),
+    /// String.
+    String(String)
 }
 
 
