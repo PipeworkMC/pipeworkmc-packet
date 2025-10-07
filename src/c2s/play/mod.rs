@@ -33,7 +33,7 @@ pub mod keep_alive;
 pub mod set_player_pos;
 pub mod set_player_pos_rot;
 pub mod set_player_rot;
-// TODO: set_player_move_flags
+pub mod set_player_move_flags;
 // TODO: move_vehicle
 // TODO: paddle_boat
 // TODO: pick_block
@@ -73,23 +73,24 @@ super::packet_group!(
     "play" C2SPlayPackets,
     C2SPlayDecodeError,
     {
-        "acknowledge teleport" AcknowledgeTeleport => acknowledge_teleport   ::C2SPlayAcknowledgeTeleportPacket,
-        "query block tag"      QueryBlockTag       => query_block_tag        ::C2SPlayQueryBlockTagPacket,
-        "set difficulty"       SetDifficulty       => set_difficulty         ::C2SPlaySetDifficultyPacket,
-        "set game mode"        SetGameMode         => set_game_mode          ::C2SPlaySetGameModePacket,
-        "acknowledge chat"     AcknowledgeChat     => acknowledge_chat       ::C2SPlayAcknowledgeChatPacket,
-        "chat command"         ChatCommand         => chat_command           ::C2SPlayChatCommandPacket,
-        "tick end"             TickEnd             => tick_end               ::C2SPlayTickEndPacket,
-        "client info"          ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
-        "cookie response"      CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
-        "custom payload"       CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
-        "query character tag"  QueryCharacterTag   => query_character_tag    ::C2SPlayQueryCharacterTagPacket,
-        "keep alive"           KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
-        "set player pos"       SetPlayerPos        => set_player_pos         ::C2SPlaySetPlayerPosPacket,
-        "set player pos rot"   SetPlayerPosRot     => set_player_pos_rot     ::C2SPlaySetPlayerPosRotPacket,
-        "set player rot"       SetPlayerRot        => set_player_rot         ::C2SPlaySetPlayerRotPacket,
-        "loaded"               Loaded              => loaded                 ::C2SPlayLoadedPacket,
-        "pong"                 Pong                => pong                   ::C2SPlayPongPacket
+        "acknowledge teleport"  AcknowledgeTeleport => acknowledge_teleport   ::C2SPlayAcknowledgeTeleportPacket,
+        "query block tag"       QueryBlockTag       => query_block_tag        ::C2SPlayQueryBlockTagPacket,
+        "set difficulty"        SetDifficulty       => set_difficulty         ::C2SPlaySetDifficultyPacket,
+        "set game mode"         SetGameMode         => set_game_mode          ::C2SPlaySetGameModePacket,
+        "acknowledge chat"      AcknowledgeChat     => acknowledge_chat       ::C2SPlayAcknowledgeChatPacket,
+        "chat command"          ChatCommand         => chat_command           ::C2SPlayChatCommandPacket,
+        "tick end"              TickEnd             => tick_end               ::C2SPlayTickEndPacket,
+        "client info"           ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
+        "cookie response"       CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
+        "custom payload"        CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
+        "query character tag"   QueryCharacterTag   => query_character_tag    ::C2SPlayQueryCharacterTagPacket,
+        "keep alive"            KeepAlive           => keep_alive             ::C2SPlayKeepAlivePacket,
+        "set player pos"        SetPlayerPos        => set_player_pos         ::C2SPlaySetPlayerPosPacket,
+        "set player pos rot"    SetPlayerPosRot     => set_player_pos_rot     ::C2SPlaySetPlayerPosRotPacket,
+        "set player rot"        SetPlayerRot        => set_player_rot         ::C2SPlaySetPlayerRotPacket,
+        "set player move flags" SetPlayerMoveFlags  => set_player_move_flags  ::C2SPlaySetPlayerMoveFlagsPacket,
+        "loaded"                Loaded              => loaded                 ::C2SPlayLoadedPacket,
+        "pong"                  Pong                => pong                   ::C2SPlayPongPacket
     }
 );
 
