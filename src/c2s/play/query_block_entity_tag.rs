@@ -33,7 +33,7 @@ pub struct C2SPlayQueryBlockEntityTagPacket {
 impl PacketMeta for C2SPlayQueryBlockEntityTagPacket {
     const STATE  : PacketState = PacketState::Play;
     const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = super::packet_id!("accept_teleportation");
+    const PREFIX : u8          = super::packet_id!("block_entity_tag_query");
 }
 
 impl PacketDecode for C2SPlayQueryBlockEntityTagPacket {
