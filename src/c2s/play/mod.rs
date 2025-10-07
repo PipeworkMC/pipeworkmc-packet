@@ -19,7 +19,7 @@ pub mod client_info;
 // TODO: acknowledge_config
 // TODO: click_container_button
 // TODO: click_container
-// TODO: close_container
+pub mod close_container;
 // TODO: change_container_slot_state
 pub mod cookie_response;
 pub mod custom_payload;
@@ -85,6 +85,7 @@ super::packet_group!(
         "game request"          GameRequest         => game_request           ::C2SPlayGameRequestPacket,
         "tick end"              TickEnd             => tick_end               ::C2SPlayTickEndPacket,
         "client info"           ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
+        "close container"       CloseContainer      => close_container        ::C2SPlayCloseContainerPacket,
         "cookie response"       CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,
         "custom payload"        CustomPayload       => custom_payload         ::C2SPlayCustomPayloadPacket,
         "query character tag"   QueryCharacterTag   => query_character_tag    ::C2SPlayQueryCharacterTagPacket,
