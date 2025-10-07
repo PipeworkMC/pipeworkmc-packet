@@ -9,7 +9,7 @@ pub mod set_game_mode;
 pub mod acknowledge_chat;
 pub mod chat_command;
 // TODO: signed_chat_command
-// TODO: chat_message
+pub mod chat_message;
 // TODO: player_session
 // TODO: chunk_batch_received
 // TODO: client_status
@@ -79,6 +79,7 @@ super::packet_group!(
         "set game mode"         SetGameMode         => set_game_mode          ::C2SPlaySetGameModePacket,
         "acknowledge chat"      AcknowledgeChat     => acknowledge_chat       ::C2SPlayAcknowledgeChatPacket,
         "chat command"          ChatCommand         => chat_command           ::C2SPlayChatCommandPacket,
+        "chat message"          ChatMessage         => chat_message           ::C2SPlayChatMessagePacket,
         "tick end"              TickEnd             => tick_end               ::C2SPlayTickEndPacket,
         "client info"           ClientInfo          => client_info            ::C2SPlayClientInfoPacket,
         "cookie response"       CookieResponse      => cookie_response        ::C2SPlayCookieResponsePacket,

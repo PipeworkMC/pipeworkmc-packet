@@ -15,10 +15,10 @@ use pipeworkmc_codec::{
 };
 
 
-/// Tells the server to run a command.
+/// The player ran a command.
 #[derive(Debug)]
 pub struct C2SPlayChatCommandPacket {
-    /// The command to run without the `/`.
+    /// The command to run, without the `/`.
     pub command : String
 }
 
