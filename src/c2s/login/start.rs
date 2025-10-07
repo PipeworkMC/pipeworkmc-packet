@@ -45,10 +45,16 @@ impl PacketDecode for C2SLoginStartPacket {
     fn decode<I>(iter : &mut DecodeIter<I>) -> Result<Self, Self::Error>
     where
         I : ExactSizeIterator<Item = u8>
-    { Ok(Self {
-        username : <_>::decode(iter).map_err(C2SLoginStartDecodeError::Username)?, // TODO: Validate username characters
-        uuid     : <_>::decode(iter).map_err(C2SLoginStartDecodeError::Uuid)?
-    }) }
+    {
+        let username = <BoundedString<16>>::decode(iter).map_err(C2SLoginStartDecodeError::Username)?;
+        if (username.chars().any(|ch| ! (ch.is_ascii_alphanumeric() || ch == '_'))) {
+            return Err(C2SLoginStartDecodeError::BadUsername);
+        }
+        Ok(Self {
+            username,
+            uuid     : <_>::decode(iter).map_err(C2SLoginStartDecodeError::Uuid)?
+        })
+    }
 }
 
 
@@ -57,12 +63,15 @@ impl PacketDecode for C2SLoginStartPacket {
 pub enum C2SLoginStartDecodeError {
     /// The username failed to decode.
     Username(BoundedStringDecodeError),
+    /// The username contains invalid characters.
+    BadUsername,
     /// The UUID failed to decode.
     Uuid(IncompleteDecodeError)
 }
 impl Display for C2SLoginStartDecodeError {
     fn fmt(&self, f : &mut Formatter<'_>) -> fmt::Result { match (self) {
         Self::Username(err) => write!(f, "username {err}"),
+        Self::BadUsername   => write!(f, "invalid username"),
         Self::Uuid(err)     => write!(f, "uuid {err}")
     } }
 }
