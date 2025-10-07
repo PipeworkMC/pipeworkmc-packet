@@ -31,7 +31,7 @@ pub mod add_character;
 // TODO: delete_message
 pub mod disconnect;
 // TODO: disguised_chat_message
-// TODO: character_event
+pub mod character_event;
 // TODO: teleport_character
 // TODO: explosion
 // TODO: unload_chunk
@@ -142,6 +142,7 @@ super::packet_group!(
     {
         "add_character"     AddCharacter     => add_character     ::S2CPlayAddCharacterPacket,
         "disconnect"        Disconnect       => disconnect        ::S2CPlayDisconnectPacket,
+        "character event"   CharacterEvent   => character_event   ::S2CPlayCharacterEventPacket,
         "game_event"        GameEvent        => game_event        ::S2CPlayGameEventPacket,
         "keep_alive"        KeepAlive        => keep_alive        ::S2CPlayKeepAlivePacket,
         "login"             Login            => login             ::S2CPlayLoginPacket<'l>,
