@@ -1,18 +1,8 @@
-//! Serverbound status packets.
-
-
 pub mod request;
 pub mod ping;
 
 
-super::packet_group!(
-    "status" C2SStatusPackets,
-    C2SStatusDecodeError,
-    {
-        "request" Request => request ::C2SStatusRequestPacket,
-        "ping"    Ping    => ping    ::C2SStatusPingPacket
-    }
-);
-
-
-include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/c2s_status.rs");
+crate::packet_group!{ "c2s" "status" => pub enum C2SStatusPackets {
+    Request(request::C2SStatusRequestPacket),
+    Ping(ping::C2SStatusPingPacket)
+} }

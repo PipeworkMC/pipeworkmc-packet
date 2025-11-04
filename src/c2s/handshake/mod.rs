@@ -1,16 +1,6 @@
-//! Serverbound handshaking packets.
-
-
 pub mod intent;
 
 
-super::packet_group!(
-    "handshaking" C2SHandshakePackets,
-    C2SHandshakeDecodeError,
-    {
-        "intent" Intent => intent::C2SHandshakeIntentPacket
-    }
-);
-
-
-include!("../../../../pipeworkmc-vanilla-datagen/output/generated/packet/c2s_handshake.rs");
+crate::packet_group!{ "c2s" "handshake" => pub enum C2SHandshakePackets<'l> {
+    Intent(intent::C2SHandshakeIntentPacket<'l>)
+} }
