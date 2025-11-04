@@ -1,35 +1,13 @@
-//! Serverbound status request packet.
+use crate::meta::*;
+use netzer::prelude::*;
 
 
-use pipeworkmc_codec::{
-    decode::{
-        PacketDecode,
-        DecodeIter
-    },
-    meta::{
-        PacketMeta,
-        PacketState,
-        PacketBound
-    }
-};
-
-
-/// Requests server list information from the server.
-#[derive(Debug)]
+#[derive(Clone, Debug, NetEncode, NetDecode)]
 pub struct C2SStatusRequestPacket;
 
-impl PacketMeta for C2SStatusRequestPacket {
-    const STATE  : PacketState = PacketState::Status;
-    const BOUND  : PacketBound = PacketBound::C2S;
-    const PREFIX : u8          = super::packet_id!("status_request");
-}
 
-impl PacketDecode for C2SStatusRequestPacket {
-    type Error = !;
-
-    #[inline]
-    fn decode<I>(_ : &mut DecodeIter<I>) -> Result<Self, Self::Error>
-    where
-        I : ExactSizeIterator<Item = u8>
-    { Ok(Self) }
+impl Packet for C2SStatusRequestPacket {
+    const PREFIX : u8 = 0; // TODO: Use datagen.
+    type Bound = Bound::C2S;
+    type State = State::Status;
 }

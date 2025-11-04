@@ -5,15 +5,17 @@ edition = "2024"
 
 [lints.rust]
 unused_parens = "allow"
-missing_docs  = "deny"
+# missing_docs  = "deny" # TODO
 
-
-[dependencies.pipeworkmc-codec]
-path = "../pipeworkmc-codec"
 
 [dependencies.pipeworkmc-data]
 path     = "../pipeworkmc-data"
 features = [ "generated" ]
+
+[dependencies.netzer]
+git      = "https://github.com/PipeworkMC/netzer"
+branch   = "main"
+features = [ "derive" ]
 
 # Serialisation
 
