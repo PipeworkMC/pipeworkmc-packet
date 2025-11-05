@@ -12,7 +12,7 @@ pub struct S2CStatusResponsePacket<'l> {
 
 
 impl Packet for S2CStatusResponsePacket<'_> {
-    const PREFIX : u8 = 0; // TODO: Use datagen.
+    const PREFIX : u8 = 0x00; // TODO: Use datagen.
     type Bound = Bound::S2C;
     type State = State::Status;
 }
