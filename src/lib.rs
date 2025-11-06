@@ -33,12 +33,17 @@ macro packet_group(
     }
 
     impl $(<$($lt,)*>)? NetEncode<Minecraft> for $ident $(<$($lt,)*>)? {
-        async fn encode<W : netzer::AsyncWrite>(&self, mut w : W) -> netzer::Result {
+        async fn encode<W : netzer::AsyncWrite>(&self,
+            #[allow(unused)]
+            mut w : W
+        ) -> netzer::Result {
             match (self) {
                 $( Self::$variantident(value) => {
                     w.write_all(&[<$variantty as Packet>::PREFIX]).await?;
                     <$variantty as NetEncode<Minecraft>>::encode(value, w).await
                 }, )*
+                #[allow(unreachable_patterns)]
+                _ => unreachable!()
             }
         }
     }
@@ -46,12 +51,14 @@ macro packet_group(
         async fn decode<R : netzer::AsyncRead>(mut r : R) -> netzer::Result<Self> {
             let mut buf = [0u8; 1];
             r.read_exact(&mut buf).await?;
-            Ok(match (buf[0]) {
+            match (buf[0]) {
                 $( <$variantty as Packet>::PREFIX => {
-                    Self::$variantident(<$variantty as NetDecode<Minecraft>>::decode(r).await?)
+                    return Ok(Self::$variantident(<$variantty as NetDecode<Minecraft>>::decode(r).await?));
                 }, )*
-                x => { return Err(format!(concat!("invalid id {} for ", $boundname, " ", $statename, " packet"), x).into()); },
-            })
+                x => {
+                    return Err(format!(concat!("invalid id {} for ", $boundname, " ", $statename, " packet"), x).into());
+                },
+            }
         }
     }
 
